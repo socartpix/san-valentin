@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carta de San Valentín</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { overflow: hidden; background: #1a0a1e; font-family: 'Georgia', serif; }
+    canvas { display: block; }
+    #mensaje {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #ffb6c1;
+      font-size: clamp(1.5rem, 5vw, 3rem);
+      text-align: center;
+      text-shadow: 0 0 20px #ff69b4, 0 0 40px #ff1493;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 1s ease;
+      z-index: 10;
+    }
+    #mensaje.visible { opacity: 1; }
+    #iniciar {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 15px 40px;
+      font-size: 1.2rem;
+      background: linear-gradient(45deg, #ff1493, #ff69b4);
+      border: none;
+      border-radius: 30px;
+      color: white;
+      cursor: pointer;
+      z-index: 20;
+      box-shadow: 0 0 20px #ff69b4;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    #iniciar:hover {
+      transform: translate(-50%, -50%) scale(1.1);
+      box-shadow: 0 0 40px #ff1493;
+    }
+  </style>
+</head>
+<body>
+  <div id="mensaje">Te amo ❤️</div>
+  <button id="iniciar">Abrir Carta</button>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+    }
+  }
+  </script>
+
+  <script type="module">
+    import * as THREE from 'three';
+
+    let escena, camara, renderer, corazon, particulas;
+    let tiempo = 0;
+
+    function init() {
+      escena = new THREE.Scene();
+      camara = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camara.position.z = 5;
+
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      document.body.appendChild(renderer.domElement);
+
+      const luz = new THREE.PointLight(0xff69b4, 2, 50);
+      luz.position.set(2, 2, 5);
+      escena.add(luz);
+      escena.add(new THREE.AmbientLight(0x404040, 0.5));
+
+      crearCorazon();
+      crearParticulas();
+
+      window.addEventListener('resize', onResize);
+    }
+
+    function crearCorazon() {
+      const geometria = new THREE.HeartGeometry(1, 1, 32, 32);
+      const material = new THREE.MeshPhongMaterial({
+        color: 0xff1493,
+        emissive: 0xff0066,
+        emissiveIntensity: 0.3,
+        shininess: 100,
+        side: THREE.DoubleSide
+      });
+      corazon = new THREE.Mesh(geometria, material);
+      escena.add(corazon);
+    }
+
+    function crearParticulas() {
+      const geometria = new THREE.BufferGeometry();
+      const vertices = [];
+      for (let i = 0; i < 500; i++) {
+        vertices.push(
+          (Math.random() - 0.5) * 20,
+          (Math.random() - 0.5) * 20,
+          (Math.random() - 0.5) * 20
+        );
+      }
+      geometria.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+      const material = new THREE.PointsMaterial({ color: 0xffb6c1, size: 0.05 });
+      particulas = new THREE.Points(geometria, material);
+      escena.add(particulas);
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      tiempo += 0.01;
+
+      if (corazon) {
+        corazon.rotation.y += 0.01;
+        corazon.rotation.x = Math.sin(tiempo) * 0.2;
+        corazon.scale.setScalar(1 + Math.sin(tiempo * 2) * 0.1);
+      }
+
+      if (particulas) {
+        particulas.rotation.y += 0.001;
+      }
+
+      renderer.render(escena, camara);
+    }
+
+    function onResize() {
+      camara.aspect = window.innerWidth / window.innerHeight;
+      camara.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    document.getElementById('iniciar').addEventListener('click', () => {
+      document.getElementById('iniciar').style.display = 'none';
+      document.getElementById('mensaje').classList.add('visible');
+      
+      corazon.position.y = 0.5;
+      corazon.scale.setScalar(0.01);
+      
+      const anim = setInterval(() => {
+        corazon.scale.multiplyScalar(1.05);
+        if (corazon.scale.x > 1.2) clearInterval(anim);
+      }, 16);
+    });
+
+    init();
+    animate();
+  </script>
+</body>
+</html>
