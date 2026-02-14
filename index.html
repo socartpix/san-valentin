@@ -143,42 +143,7 @@
       50% { opacity: 0.4; transform: scale(1); }
     }
 
-    /* === Sobre 3D con canvas === */
-    .sobre-3d-container {
-      position: relative;
-      z-index: 10;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
-
-    .sobre-3d-container canvas {
-      width: clamp(280px, 70vw, 420px) !important;
-      height: clamp(250px, 60vw, 380px) !important;
-      display: block;
-      margin: 0 auto;
-    }
-
-    .click-hint {
-      position: absolute;
-      bottom: -30px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: #e0bebe;
-      font-size: 0.85rem;
-      white-space: nowrap;
-      animation: pulse-hint 2.5s ease-in-out infinite;
-      letter-spacing: 2px;
-      font-style: italic;
-    }
-
-    @keyframes pulse-hint {
-      0%, 100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
-      50% { opacity: 1; transform: translateX(-50%) translateY(-5px); }
-    }
-
+    /* === Corazones flotantes === */
     .corazon-flotante {
       position: absolute;
       font-size: 1.2rem;
@@ -2066,147 +2031,6 @@
     init();
     animate();
 
-    // === SOBRE 3D ===
-    let escenaSobre, camaraSobre, rendererSobre, sobreGrupo, sobreTiempo = 0;
-
-    function iniciarSobre3D() {
-      console.log('[DEBUG] Iniciando sobre 3D...');
-      const canvas = document.getElementById('sobreCanvas');
-      if (!canvas) {
-        console.error('[DEBUG] sobreCanvas no encontrado!');
-        return;
-      }
-
-      const containerWidth = Math.min(window.innerWidth * 0.7, 420);
-      const containerHeight = Math.min(window.innerWidth * 0.6, 380);
-
-      escenaSobre = new THREE.Scene();
-      camaraSobre = new THREE.PerspectiveCamera(50, containerWidth / containerHeight, 0.1, 100);
-      camaraSobre.position.set(0, 0.5, 5);
-      camaraSobre.lookAt(0, 0, 0);
-
-      rendererSobre = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
-      rendererSobre.setSize(containerWidth, containerHeight);
-      rendererSobre.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-      // Luces
-      escenaSobre.add(new THREE.AmbientLight(0xffffff, 0.6));
-      const luzDir = new THREE.DirectionalLight(0xffeedd, 1);
-      luzDir.position.set(2, 3, 3);
-      escenaSobre.add(luzDir);
-      const luzRosa = new THREE.PointLight(0xff69b4, 1, 15);
-      luzRosa.position.set(-2, 2, 3);
-      escenaSobre.add(luzRosa);
-
-      sobreGrupo = new THREE.Group();
-
-      // Cuerpo del sobre (rectángulo)
-      const cuerpoGeo = new THREE.BoxGeometry(3, 2, 0.15);
-      const cuerpoMat = new THREE.MeshPhongMaterial({
-        color: 0xffe4e1,
-        shininess: 40,
-        emissive: 0xff69b4,
-        emissiveIntensity: 0.05
-      });
-      const cuerpo = new THREE.Mesh(cuerpoGeo, cuerpoMat);
-      sobreGrupo.add(cuerpo);
-
-      // Solapa superior (triángulo)
-      const solapaShape = new THREE.Shape();
-      solapaShape.moveTo(-1.5, 0);
-      solapaShape.lineTo(0, -1.2);
-      solapaShape.lineTo(1.5, 0);
-      solapaShape.lineTo(-1.5, 0);
-      const solapaGeo = new THREE.ExtrudeGeometry(solapaShape, { depth: 0.05, bevelEnabled: false });
-      const solapaMat = new THREE.MeshPhongMaterial({
-        color: 0xffc0cb,
-        shininess: 50,
-        emissive: 0xff1493,
-        emissiveIntensity: 0.08
-      });
-      const solapa = new THREE.Mesh(solapaGeo, solapaMat);
-      solapa.position.set(0, 1, 0.05);
-      sobreGrupo.add(solapa);
-
-      // Triangulo inferior decorativo (V)
-      const vShape = new THREE.Shape();
-      vShape.moveTo(-1.5, 0);
-      vShape.lineTo(0, -0.9);
-      vShape.lineTo(1.5, 0);
-      vShape.lineTo(-1.5, 0);
-      const vGeo = new THREE.ExtrudeGeometry(vShape, { depth: 0.02, bevelEnabled: false });
-      const vMat = new THREE.MeshPhongMaterial({
-        color: 0xffb6c1,
-        shininess: 30
-      });
-      const vMesh = new THREE.Mesh(vGeo, vMat);
-      vMesh.position.set(0, -1, 0.08);
-      vMesh.rotation.x = Math.PI;
-      sobreGrupo.add(vMesh);
-
-      // Corazón decorativo en el centro
-      const corazonShape = new THREE.Shape();
-      const cx = 0, cy = 0.15;
-      corazonShape.moveTo(cx, cy - 0.15);
-      corazonShape.bezierCurveTo(cx - 0.3, cy + 0.15, cx - 0.15, cy + 0.4, cx, cy + 0.25);
-      corazonShape.bezierCurveTo(cx + 0.15, cy + 0.4, cx + 0.3, cy + 0.15, cx, cy - 0.15);
-      const corazonGeo = new THREE.ExtrudeGeometry(corazonShape, { depth: 0.08, bevelEnabled: true, bevelThickness: 0.02, bevelSize: 0.02 });
-      const corazonMat = new THREE.MeshPhongMaterial({
-        color: 0xff1493,
-        shininess: 100,
-        emissive: 0xff0066,
-        emissiveIntensity: 0.3
-      });
-      const corazon = new THREE.Mesh(corazonGeo, corazonMat);
-      corazon.position.set(0, -0.2, 0.1);
-      corazon.scale.set(0.8, 0.8, 0.8);
-      sobreGrupo.add(corazon);
-
-      // Sello decorativo
-      const selloGeo = new THREE.CircleGeometry(0.15, 16);
-      const selloMat = new THREE.MeshPhongMaterial({
-        color: 0xff4444,
-        emissive: 0xcc0000,
-        emissiveIntensity: 0.2
-      });
-      const sello = new THREE.Mesh(selloGeo, selloMat);
-      sello.position.set(0, 0.6, 0.09);
-      sobreGrupo.add(sello);
-
-      escenaSobre.add(sobreGrupo);
-
-      // Click handler
-      const container = document.getElementById('sobre3dContainer');
-      container.addEventListener('click', function() {
-        console.log('[DEBUG] Sobre clickeado');
-        abrirCarta();
-      });
-      container.addEventListener('touchstart', function(e) {
-        e.preventDefault();
-        console.log('[DEBUG] Sobre tocado');
-        abrirCarta();
-      });
-
-      animarSobre();
-      console.log('[DEBUG] Sobre 3D iniciado correctamente');
-    }
-
-    function animarSobre() {
-      requestAnimationFrame(animarSobre);
-      if (!sobreGrupo) return;
-      sobreTiempo += 0.01;
-
-      // Flotar suavemente
-      sobreGrupo.position.y = Math.sin(sobreTiempo * 1.5) * 0.15;
-      sobreGrupo.rotation.y = Math.sin(sobreTiempo * 0.8) * 0.15;
-      sobreGrupo.rotation.x = Math.sin(sobreTiempo * 1.2) * 0.05;
-
-      rendererSobre.render(escenaSobre, camaraSobre);
-    }
-
-    // Iniciar sobre cuando sea necesario
-    iniciarSobre3D();
-
     window.abrirCarta = function() {
       console.log('[DEBUG] abrirCarta() llamada');
       const p0 = document.getElementById('pantalla0');
@@ -2217,30 +2041,20 @@
         return;
       }
 
-      // Animar apertura del sobre
-      const sobreContainer = document.getElementById('sobre3dContainer');
-      if (sobreContainer) {
-        sobreContainer.style.transform = 'scale(1.1) rotateX(-30deg)';
-        sobreContainer.style.transition = 'transform 0.8s ease';
-      }
+      p0.classList.remove('visible');
+      p0.classList.add('oculta');
 
       setTimeout(() => {
-        p0.classList.remove('visible');
-        p0.classList.add('oculta');
-        console.log('[DEBUG] pantalla0 ocultada, mostrando pantalla1...');
+        p0.style.display = 'none';
+        p1.style.display = 'flex';
 
         setTimeout(() => {
-          p0.style.display = 'none';
-          p1.style.display = 'flex';
-
-          setTimeout(() => {
-            p1.classList.add('visible');
-            document.getElementById('punto1').classList.remove('activo');
-            document.getElementById('punto2').classList.add('activo');
-            console.log('[DEBUG] pantalla1 visible');
-          }, 100);
-        }, 300);
-      }, 800);
+          p1.classList.add('visible');
+          document.getElementById('punto1').classList.remove('activo');
+          document.getElementById('punto2').classList.add('activo');
+          console.log('[DEBUG] pantalla1 visible');
+        }, 100);
+      }, 300);
     };
 
     window.siguientePantalla = function() {
@@ -3205,17 +3019,17 @@
       loading.style.pointerEvents = "none";
       setTimeout(function() {
         loading.style.display = "none";
-        console.log('[DEBUG] Loading screen oculta, mostrando pantalla0...');
-        // Mostrar pantalla0 (sobre)
-        var p0 = document.getElementById('pantalla0');
-        if (p0) {
-          p0.style.display = 'flex';
+        console.log('[DEBUG] Loading screen oculta, mostrando pantalla1...');
+        // Ir directo a pantalla1 (mensaje)
+        var p1 = document.getElementById('pantalla1');
+        if (p1) {
+          p1.style.display = 'flex';
           setTimeout(function() {
-            p0.classList.add('visible');
-            console.log('[DEBUG] pantalla0 visible');
+            p1.classList.add('visible');
+            console.log('[DEBUG] pantalla1 visible');
           }, 100);
         } else {
-          console.error('[DEBUG] pantalla0 no encontrada!');
+          console.error('[DEBUG] pantalla1 no encontrada!');
         }
       }, 800);
     }
