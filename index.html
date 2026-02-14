@@ -732,6 +732,242 @@
       50% { transform: translateY(-80px) scale(1.3); }
       100% { opacity: 0; transform: translateY(-120px) scale(0.2); }
     }
+
+    /* === Pantalla Final: Axolote === */
+    .pantalla-final-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    /* Efecto de agua */
+    .agua-fondo {
+      position: absolute;
+      bottom: 0;
+      left: -10%;
+      width: 120%;
+      height: 35%;
+      background: linear-gradient(180deg,
+        transparent 0%,
+        rgba(0, 180, 216, 0.05) 20%,
+        rgba(0, 150, 199, 0.12) 50%,
+        rgba(0, 119, 182, 0.2) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .ola {
+      position: absolute;
+      left: -10%;
+      width: 120%;
+      height: 25px;
+      background: transparent;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .ola::before, .ola::after {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 100%;
+      top: 0;
+      left: -50%;
+      background: repeat-x;
+    }
+
+    .ola-1 {
+      bottom: 32%;
+      opacity: 0.4;
+    }
+    .ola-1::before {
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20'%3E%3Cpath d='M0,10 Q25,0 50,10 T100,10 T150,10 T200,10 V20 H0 Z' fill='rgba(72,202,228,0.3)'/%3E%3C/svg%3E") repeat-x;
+      background-size: 200px 20px;
+      animation: ola-mover 4s linear infinite;
+    }
+
+    .ola-2 {
+      bottom: 30%;
+      opacity: 0.3;
+    }
+    .ola-2::before {
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20'%3E%3Cpath d='M0,10 Q25,0 50,10 T100,10 T150,10 T200,10 V20 H0 Z' fill='rgba(0,150,199,0.25)'/%3E%3C/svg%3E") repeat-x;
+      background-size: 180px 18px;
+      animation: ola-mover 6s linear infinite reverse;
+    }
+
+    .ola-3 {
+      bottom: 28%;
+      opacity: 0.2;
+    }
+    .ola-3::before {
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20'%3E%3Cpath d='M0,10 Q25,0 50,10 T100,10 T150,10 T200,10 V20 H0 Z' fill='rgba(0,119,182,0.2)'/%3E%3C/svg%3E") repeat-x;
+      background-size: 220px 22px;
+      animation: ola-mover 8s linear infinite;
+    }
+
+    @keyframes ola-mover {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(50%); }
+    }
+
+    /* Burbujas de agua */
+    .burbuja {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), rgba(72,202,228,0.15));
+      border: 1px solid rgba(255,255,255,0.2);
+      animation: burbuja-subir linear infinite;
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    @keyframes burbuja-subir {
+      0% { opacity: 0; transform: translateY(0) scale(0.5); }
+      10% { opacity: 0.7; }
+      90% { opacity: 0.5; }
+      100% { opacity: 0; transform: translateY(-200px) scale(1.2); }
+    }
+
+    /* Orquideas flotantes estilo Mario Party */
+    .orquidea-flotante {
+      position: absolute;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      z-index: 4;
+      pointer-events: none;
+      filter: drop-shadow(0 3px 8px rgba(186, 85, 211, 0.5));
+    }
+
+    .orquidea-flotante.tipo-a {
+      animation: mario-float-a var(--dur) ease-in-out infinite;
+    }
+    .orquidea-flotante.tipo-b {
+      animation: mario-float-b var(--dur) ease-in-out infinite;
+    }
+    .orquidea-flotante.tipo-c {
+      animation: mario-float-c var(--dur) ease-in-out infinite;
+    }
+
+    @keyframes mario-float-a {
+      0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+      25% { transform: translate(15px, -25px) rotate(10deg) scale(1.1); }
+      50% { transform: translate(-10px, -40px) rotate(-5deg) scale(0.95); }
+      75% { transform: translate(20px, -15px) rotate(12deg) scale(1.08); }
+      100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+    }
+
+    @keyframes mario-float-b {
+      0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+      25% { transform: translate(-20px, -15px) rotate(-12deg) scale(1.05); }
+      50% { transform: translate(10px, -35px) rotate(8deg) scale(1.12); }
+      75% { transform: translate(-15px, -20px) rotate(-6deg) scale(0.93); }
+      100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+    }
+
+    @keyframes mario-float-c {
+      0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+      20% { transform: translate(12px, -30px) rotate(6deg) scale(1.08); }
+      40% { transform: translate(-18px, -10px) rotate(-10deg) scale(0.97); }
+      60% { transform: translate(8px, -45px) rotate(14deg) scale(1.15); }
+      80% { transform: translate(-10px, -20px) rotate(-4deg) scale(1.02); }
+      100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+    }
+
+    /* Destello al hacer click */
+    .destello {
+      position: fixed;
+      pointer-events: none;
+      z-index: 100;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .destello-particula {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      animation: destello-explotar 0.8s ease-out forwards;
+    }
+
+    @keyframes destello-explotar {
+      0% { opacity: 1; transform: translate(0, 0) scale(1); }
+      100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0); }
+    }
+
+    .destello-onda {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      animation: destello-onda-expandir 0.6s ease-out forwards;
+      transform: translate(-50%, -50%);
+    }
+
+    @keyframes destello-onda-expandir {
+      0% { opacity: 1; width: 10px; height: 10px; }
+      100% { opacity: 0; width: 120px; height: 120px; }
+    }
+
+    /* Axolote SVG */
+    .axolote-container {
+      position: relative;
+      z-index: 10;
+      animation: axolote-flotar 4s ease-in-out infinite;
+      margin-bottom: 10px;
+    }
+
+    @keyframes axolote-flotar {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    .axolote-container svg {
+      width: clamp(180px, 35vw, 280px);
+      height: auto;
+      filter: drop-shadow(0 8px 25px rgba(255, 105, 180, 0.4));
+    }
+
+    /* Mensaje final largo */
+    .mensaje-sanvalentin {
+      color: #ffe0f0;
+      font-size: clamp(0.85rem, 2.5vw, 1.3rem);
+      text-align: center;
+      max-width: 85%;
+      line-height: 2;
+      text-shadow: 0 0 20px #ff1493, 0 0 40px #ff69b4;
+      padding: 15px 20px;
+      background: radial-gradient(ellipse at center, rgba(255, 20, 147, 0.08) 0%, transparent 70%);
+      border-radius: 20px;
+      z-index: 10;
+      position: relative;
+      opacity: 0;
+      animation: msg-final-in 1.5s ease 0.5s forwards;
+    }
+
+    @keyframes msg-final-in {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .toca-hint {
+      position: absolute;
+      bottom: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255, 212, 229, 0.5);
+      font-size: 0.8rem;
+      animation: pulse-hint 2s infinite;
+      z-index: 10;
+    }
   </style>
 </head>
 <body>
@@ -906,6 +1142,163 @@
         </div>
       </div>
     </div>
+    <button class="btn-siguiente" onclick="pantallaAxolote()" style="position:absolute; bottom:5%; z-index:20; background: linear-gradient(45deg, #d4af37, #f0d060); color:#5a3e1b;">Continuar 💍</button>
+  </div>
+
+  <!-- Pantalla 6: Final Axolote -->
+  <div class="pantalla" id="pantalla6" style="display:none;">
+    <div class="pantalla-final-container" id="pantallaFinalContainer">
+
+      <!-- Efecto de agua -->
+      <div class="agua-fondo"></div>
+      <div class="ola ola-1"></div>
+      <div class="ola ola-2"></div>
+      <div class="ola ola-3"></div>
+
+      <!-- Burbujas -->
+      <div class="burbuja" style="width:8px;height:8px;bottom:5%;left:15%;animation-duration:4s;animation-delay:0s;"></div>
+      <div class="burbuja" style="width:12px;height:12px;bottom:8%;left:35%;animation-duration:5s;animation-delay:1s;"></div>
+      <div class="burbuja" style="width:6px;height:6px;bottom:3%;right:25%;animation-duration:3.5s;animation-delay:0.5s;"></div>
+      <div class="burbuja" style="width:10px;height:10px;bottom:10%;right:40%;animation-duration:4.5s;animation-delay:2s;"></div>
+      <div class="burbuja" style="width:7px;height:7px;bottom:6%;left:55%;animation-duration:3.8s;animation-delay:1.5s;"></div>
+      <div class="burbuja" style="width:9px;height:9px;bottom:4%;right:15%;animation-duration:5.5s;animation-delay:0.8s;"></div>
+      <div class="burbuja" style="width:5px;height:5px;bottom:12%;left:70%;animation-duration:3s;animation-delay:2.5s;"></div>
+      <div class="burbuja" style="width:11px;height:11px;bottom:7%;left:45%;animation-duration:6s;animation-delay:3s;"></div>
+
+      <!-- Orquideas flotantes Mario Party style -->
+      <div class="orquidea-flotante tipo-a" style="top:3%;left:5%;--dur:4s;animation-delay:0s;">🌺</div>
+      <div class="orquidea-flotante tipo-b" style="top:8%;right:8%;--dur:5s;animation-delay:0.5s;">🌸</div>
+      <div class="orquidea-flotante tipo-c" style="top:20%;left:2%;--dur:4.5s;animation-delay:1s;">🌺</div>
+      <div class="orquidea-flotante tipo-a" style="top:15%;right:3%;--dur:3.8s;animation-delay:1.5s;">🌸</div>
+      <div class="orquidea-flotante tipo-b" style="top:35%;left:4%;--dur:5.2s;animation-delay:0.3s;">🌺</div>
+      <div class="orquidea-flotante tipo-c" style="top:45%;right:5%;--dur:4.2s;animation-delay:2s;">🌸</div>
+      <div class="orquidea-flotante tipo-a" style="bottom:38%;left:6%;--dur:3.5s;animation-delay:0.8s;">🌺</div>
+      <div class="orquidea-flotante tipo-b" style="bottom:42%;right:4%;--dur:4.8s;animation-delay:1.2s;">🌸</div>
+      <div class="orquidea-flotante tipo-c" style="top:5%;left:40%;--dur:5.5s;animation-delay:2.5s;">🌺</div>
+      <div class="orquidea-flotante tipo-a" style="top:28%;right:15%;--dur:4s;animation-delay:0.7s;">🌸</div>
+      <div class="orquidea-flotante tipo-b" style="top:55%;left:12%;--dur:3.7s;animation-delay:1.8s;">🌺</div>
+      <div class="orquidea-flotante tipo-c" style="top:10%;left:22%;--dur:4.3s;animation-delay:3s;">🌸</div>
+      <div class="orquidea-flotante tipo-a" style="top:42%;left:85%;--dur:5s;animation-delay:0.4s;">🌺</div>
+      <div class="orquidea-flotante tipo-b" style="top:60%;right:12%;--dur:3.9s;animation-delay:2.2s;">🌸</div>
+
+      <!-- Axolote SVG con canasta de flores -->
+      <div class="axolote-container">
+        <svg viewBox="0 0 300 320" xmlns="http://www.w3.org/2000/svg">
+          <!-- Sombra -->
+          <ellipse cx="150" cy="310" rx="70" ry="8" fill="rgba(0,0,0,0.1)"/>
+
+          <!-- Cola -->
+          <path d="M90,250 Q60,260 40,240 Q25,225 35,210 Q45,200 55,210 Q65,225 80,235" fill="#f8a4c8" stroke="#e8829f" stroke-width="1.5"/>
+          <path d="M42,235 Q30,220 38,208" fill="none" stroke="rgba(255,150,180,0.4)" stroke-width="3" stroke-linecap="round"/>
+
+          <!-- Cuerpo -->
+          <ellipse cx="150" cy="230" rx="65" ry="55" fill="#ffb6d3"/>
+          <ellipse cx="150" cy="230" rx="55" ry="45" fill="#ffc4dc"/>
+
+          <!-- Panza -->
+          <ellipse cx="150" cy="240" rx="35" ry="30" fill="#ffe0ee"/>
+
+          <!-- Pata trasera izq -->
+          <ellipse cx="105" cy="275" rx="18" ry="10" fill="#ffb6d3" transform="rotate(-10,105,275)"/>
+          <!-- Pata trasera der -->
+          <ellipse cx="195" cy="275" rx="18" ry="10" fill="#ffb6d3" transform="rotate(10,195,275)"/>
+
+          <!-- Patas delanteras sosteniendo canasta -->
+          <path d="M115,220 Q100,235 108,250" stroke="#ffb6d3" stroke-width="12" fill="none" stroke-linecap="round"/>
+          <path d="M185,220 Q200,235 192,250" stroke="#ffb6d3" stroke-width="12" fill="none" stroke-linecap="round"/>
+
+          <!-- Canasta de flores -->
+          <path d="M108,248 Q110,270 150,275 Q190,270 192,248 Z" fill="#c68642" stroke="#a0682a" stroke-width="1.5"/>
+          <path d="M112,253 Q150,258 188,253" fill="none" stroke="#a0682a" stroke-width="1"/>
+          <path d="M114,260 Q150,265 186,260" fill="none" stroke="#a0682a" stroke-width="1"/>
+          <!-- Patron tejido -->
+          <line x1="130" y1="248" x2="135" y2="272" stroke="#a0682a" stroke-width="0.8" opacity="0.4"/>
+          <line x1="150" y1="247" x2="150" y2="275" stroke="#a0682a" stroke-width="0.8" opacity="0.4"/>
+          <line x1="170" y1="248" x2="165" y2="272" stroke="#a0682a" stroke-width="0.8" opacity="0.4"/>
+          <!-- Asa de la canasta -->
+          <path d="M118,248 Q150,220 182,248" fill="none" stroke="#a0682a" stroke-width="3" stroke-linecap="round"/>
+
+          <!-- Flores en la canasta -->
+          <circle cx="130" cy="242" r="10" fill="#ff69b4"/>
+          <circle cx="130" cy="242" r="5" fill="#ffb6c1"/>
+          <circle cx="150" cy="238" r="12" fill="#da70d6"/>
+          <circle cx="150" cy="238" r="6" fill="#e8a0e0"/>
+          <circle cx="170" cy="241" r="10" fill="#ff1493"/>
+          <circle cx="170" cy="241" r="5" fill="#ff69b4"/>
+          <circle cx="140" cy="235" r="8" fill="#ff6b8a"/>
+          <circle cx="140" cy="235" r="4" fill="#ffb6c1"/>
+          <circle cx="160" cy="234" r="9" fill="#ba55d3"/>
+          <circle cx="160" cy="234" r="4.5" fill="#da90e8"/>
+          <!-- Hojitas -->
+          <ellipse cx="122" cy="245" rx="6" ry="3" fill="#4caf50" transform="rotate(-30,122,245)"/>
+          <ellipse cx="178" cy="244" rx="6" ry="3" fill="#4caf50" transform="rotate(30,178,244)"/>
+          <ellipse cx="145" cy="232" rx="5" ry="2.5" fill="#66bb6a" transform="rotate(-15,145,232)"/>
+
+          <!-- Cabeza -->
+          <ellipse cx="150" cy="160" rx="55" ry="50" fill="#ffb6d3"/>
+          <ellipse cx="150" cy="165" rx="48" ry="42" fill="#ffc4dc"/>
+
+          <!-- Branquias (rasgo de axolote!) -->
+          <!-- Izquierda -->
+          <path d="M95,135 Q70,110 60,90" stroke="#ff69b4" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <path d="M95,140 Q65,125 50,110" stroke="#ff69b4" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+          <path d="M98,148 Q70,145 55,135" stroke="#ff69b4" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <!-- Bolitas en puntas -->
+          <circle cx="60" cy="90" r="5" fill="#ff1493"/>
+          <circle cx="50" cy="110" r="4.5" fill="#ff1493"/>
+          <circle cx="55" cy="135" r="4" fill="#ff1493"/>
+
+          <!-- Derecha -->
+          <path d="M205,135 Q230,110 240,90" stroke="#ff69b4" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <path d="M205,140 Q235,125 250,110" stroke="#ff69b4" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+          <path d="M202,148 Q230,145 245,135" stroke="#ff69b4" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <!-- Bolitas en puntas -->
+          <circle cx="240" cy="90" r="5" fill="#ff1493"/>
+          <circle cx="250" cy="110" r="4.5" fill="#ff1493"/>
+          <circle cx="245" cy="135" r="4" fill="#ff1493"/>
+
+          <!-- Ojos -->
+          <ellipse cx="130" cy="155" rx="14" ry="15" fill="white"/>
+          <ellipse cx="170" cy="155" rx="14" ry="15" fill="white"/>
+          <circle cx="132" cy="157" r="8" fill="#2c2c2c"/>
+          <circle cx="172" cy="157" r="8" fill="#2c2c2c"/>
+          <!-- Brillo ojos -->
+          <circle cx="136" cy="153" r="3.5" fill="white"/>
+          <circle cx="176" cy="153" r="3.5" fill="white"/>
+          <circle cx="130" cy="160" r="1.5" fill="white"/>
+          <circle cx="170" cy="160" r="1.5" fill="white"/>
+
+          <!-- Mejillas sonrojadas -->
+          <ellipse cx="115" cy="175" rx="12" ry="7" fill="rgba(255,100,150,0.35)"/>
+          <ellipse cx="185" cy="175" rx="12" ry="7" fill="rgba(255,100,150,0.35)"/>
+
+          <!-- Sonrisa -->
+          <path d="M138,178 Q150,192 162,178" fill="none" stroke="#d4567a" stroke-width="2.5" stroke-linecap="round"/>
+
+          <!-- Naricita -->
+          <ellipse cx="150" cy="170" rx="2.5" ry="2" fill="#e8829f"/>
+
+          <!-- Corazoncito flotando -->
+          <g transform="translate(200, 120)" opacity="0.8">
+            <animateTransform attributeName="transform" type="translate" values="200,125; 200,115; 200,125" dur="2s" repeatCount="indefinite"/>
+            <path d="M0,5 Q0,0 5,0 Q10,0 10,5 Q10,10 5,15 Q0,10 0,5 Z" fill="#ff1493" transform="scale(1.2)"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Mensaje -->
+      <p class="mensaje-sanvalentin">
+        Feliz D&iacute;a de San Valent&iacute;n<br>
+        a la mujer que convirti&oacute; mi caos en melod&iacute;a,<br>
+        que sembr&oacute; primavera en mis inviernos<br>
+        y que con solo mirarme<br>
+        me ense&ntilde;&oacute; lo que significa eternidad,<br>
+        que hace brillar mis ojos<br>
+        y me recuerda lo bello que es la vida.
+      </p>
+
+      <span class="toca-hint">Toca para hacer magia ✨</span>
+    </div>
   </div>
 
   <div class="indicador-pestanas">
@@ -915,6 +1308,7 @@
     <div class="punto" id="punto4"></div>
     <div class="punto" id="punto5"></div>
     <div class="punto" id="punto6"></div>
+    <div class="punto" id="punto7"></div>
   </div>
 
   <script type="importmap">
@@ -1447,6 +1841,81 @@
         }, 100);
       }, 500);
     };
+
+    window.pantallaAxolote = function() {
+      const p5 = document.getElementById('pantalla5');
+      const p6 = document.getElementById('pantalla6');
+
+      p5.classList.remove('visible');
+      p5.classList.add('oculta');
+
+      // Cambiar luces a tonos rosa/agua
+      escena.children.forEach(child => {
+        if (child.isPointLight) {
+          child.color.setHex(0xff69b4);
+        }
+      });
+
+      setTimeout(() => {
+        p5.style.display = 'none';
+        p6.style.display = 'flex';
+
+        setTimeout(() => {
+          p6.classList.add('visible');
+          document.getElementById('punto6').classList.remove('activo');
+          document.getElementById('punto7').classList.add('activo');
+          iniciarDestellos();
+        }, 100);
+      }, 500);
+    };
+
+    // Efecto de destello al hacer click
+    function iniciarDestellos() {
+      const container = document.getElementById('pantallaFinalContainer');
+
+      function crearDestello(x, y) {
+        const colores = ['#ff1493', '#ff69b4', '#da70d6', '#ffd700', '#00bfff', '#ffffff', '#ff6b8a', '#ba55d3'];
+        const destello = document.createElement('div');
+        destello.className = 'destello';
+        destello.style.left = x + 'px';
+        destello.style.top = y + 'px';
+
+        // Onda expansiva
+        const onda = document.createElement('div');
+        onda.className = 'destello-onda';
+        onda.style.borderColor = colores[Math.floor(Math.random() * colores.length)];
+        destello.appendChild(onda);
+
+        // Particulas que explotan
+        for (let i = 0; i < 14; i++) {
+          const p = document.createElement('div');
+          p.className = 'destello-particula';
+          const angulo = (i / 14) * Math.PI * 2;
+          const dist = 40 + Math.random() * 60;
+          const dx = Math.cos(angulo) * dist;
+          const dy = Math.sin(angulo) * dist;
+          p.style.setProperty('--dx', dx + 'px');
+          p.style.setProperty('--dy', dy + 'px');
+          p.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
+          p.style.boxShadow = `0 0 6px ${p.style.backgroundColor}`;
+          p.style.width = (3 + Math.random() * 5) + 'px';
+          p.style.height = p.style.width;
+          destello.appendChild(p);
+        }
+
+        document.body.appendChild(destello);
+        setTimeout(() => destello.remove(), 1000);
+      }
+
+      container.addEventListener('click', (e) => {
+        crearDestello(e.clientX, e.clientY);
+      });
+
+      container.addEventListener('touchstart', (e) => {
+        const touch = e.touches[0];
+        crearDestello(touch.clientX, touch.clientY);
+      });
+    }
 
     // Parallax para fotos de boda
     function iniciarParallaxBoda() {
