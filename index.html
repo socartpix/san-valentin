@@ -912,6 +912,7 @@
     .foto-boda-aparecer-1 { animation: foto-boda-in 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s forwards; }
     .foto-boda-aparecer-2 { animation: foto-boda-in 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.7s forwards; }
     .foto-boda-aparecer-3 { animation: foto-boda-in 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 1.1s forwards; }
+    .foto-boda-aparecer-4 { animation: foto-boda-in 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 1.5s forwards; }
 
     @keyframes foto-boda-in {
       0% { opacity: 0; transform: translateY(60px) scale(0.6) rotateY(30deg); }
@@ -936,6 +937,181 @@
       85% { opacity: 0.8; }
       50% { transform: translateY(-80px) scale(1.3); }
       100% { opacity: 0; transform: translateY(-120px) scale(0.2); }
+    }
+
+    /* === Pantalla Patos === */
+    .patos-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .patos-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .patos-titulo {
+      position: absolute;
+      top: 8%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #ffe0a0;
+      font-size: clamp(1.2rem, 3.5vw, 2rem);
+      text-align: center;
+      text-shadow: 0 0 20px rgba(255, 200, 50, 0.6), 0 0 40px rgba(255, 150, 0, 0.3);
+      z-index: 10;
+      font-style: italic;
+      opacity: 0;
+      animation: patos-titulo-in 1s ease 0.5s forwards;
+    }
+
+    @keyframes patos-titulo-in {
+      to { opacity: 1; }
+    }
+
+    /* Cofre 3D */
+    .cofre-area {
+      position: absolute;
+      bottom: 18%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 180px;
+      height: 180px;
+      z-index: 15;
+      cursor: pointer;
+    }
+
+    .cofre-area canvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    .cofre-hint {
+      text-align: center;
+      color: #ffd700;
+      font-size: 0.9rem;
+      margin-top: -5px;
+      animation: pulse-hint 2s infinite;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+
+    /* Texto Feliz San Valentin */
+    .feliz-san-valentin {
+      position: absolute;
+      bottom: 6%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #ff69b4;
+      font-size: clamp(1.3rem, 4vw, 2.2rem);
+      text-align: center;
+      white-space: nowrap;
+      text-shadow: 0 0 20px #ff1493, 0 0 40px #ff69b4, 0 0 60px #ff0066;
+      z-index: 10;
+      opacity: 0;
+      pointer-events: none;
+      animation: none;
+    }
+
+    .feliz-san-valentin.mostrar {
+      animation: feliz-aparecer 1s ease forwards, pulse 2s ease-in-out 1s infinite;
+    }
+
+    @keyframes feliz-aparecer {
+      0% { opacity: 0; transform: translateX(-50%) scale(0.5); }
+      100% { opacity: 1; transform: translateX(-50%) scale(1); }
+    }
+
+    /* QR Overlay */
+    .qr-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.9);
+      z-index: 300;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .qr-overlay.activo {
+      display: flex;
+    }
+
+    .qr-card {
+      background: linear-gradient(145deg, #2a1a2e, #1a0a1e);
+      border: 2px solid rgba(255, 105, 180, 0.3);
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 0 60px rgba(255, 105, 180, 0.3);
+      animation: qr-card-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes qr-card-in {
+      0% { transform: scale(0.3) rotateY(90deg); opacity: 0; }
+      100% { transform: scale(1) rotateY(0); opacity: 1; }
+    }
+
+    .qr-titulo {
+      color: #ff69b4;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      text-shadow: 0 0 15px #ff1493;
+    }
+
+    .qr-img {
+      width: clamp(200px, 50vw, 300px);
+      height: auto;
+      border-radius: 10px;
+      border: 3px solid rgba(255, 105, 180, 0.4);
+      box-shadow: 0 0 30px rgba(255, 105, 180, 0.2);
+    }
+
+    .qr-sub {
+      color: #ffd4e5;
+      font-size: 1rem;
+      margin-top: 12px;
+      font-style: italic;
+    }
+
+    /* Fuegos artificiales */
+    .fuego {
+      position: absolute;
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    .fuego-particula {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      animation: fuego-explotar 1.5s ease-out forwards;
+    }
+
+    @keyframes fuego-explotar {
+      0% { opacity: 1; transform: translate(0, 0) scale(1); }
+      50% { opacity: 0.8; }
+      100% { opacity: 0; transform: translate(var(--fx), var(--fy)) scale(0); }
+    }
+
+    .fuego-trail {
+      position: absolute;
+      width: 3px;
+      border-radius: 2px;
+      animation: fuego-subir 0.6s ease-out forwards;
+    }
+
+    @keyframes fuego-subir {
+      0% { opacity: 1; height: 0; }
+      50% { opacity: 1; }
+      100% { opacity: 0; height: 80px; }
     }
 
     /* === Pantalla Final: Axolote === */
@@ -1360,12 +1536,16 @@
           <div class="foto-boda-marco-dorado"></div>
           <img src="fotoboda3.jpg" alt="Nuestra boda">
         </div>
+        <div class="foto-boda foto-boda-aparecer-4" data-parallax-boda="1.5">
+          <div class="foto-boda-marco-dorado"></div>
+          <img src="fotoboda4.png" alt="Nuestra boda">
+        </div>
       </div>
     </div>
     <button class="btn-siguiente" onclick="pantallaAxolote()" style="background: linear-gradient(45deg, #d4af37, #f0d060); color:#5a3e1b;">Continuar 💍</button>
   </div>
 
-  <!-- Pantalla 6: Final Axolote -->
+  <!-- Pantalla 6: Axolote -->
   <div class="pantalla" id="pantalla6" style="display:none;">
     <div class="pantalla-final-container" id="pantallaFinalContainer">
 
@@ -1519,6 +1699,33 @@
 
       <span class="toca-hint">Toca para hacer magia ✨</span>
     </div>
+    <button class="btn-siguiente" onclick="pantallaPatos()" style="position:absolute; bottom:60px; z-index:20;">Continuar ❤️</button>
+  </div>
+
+  <!-- Pantalla 7: Patos 3D + Cofre -->
+  <div class="pantalla" id="pantalla7" style="display:none;">
+    <div class="patos-container" id="patosContainer">
+      <canvas class="patos-canvas" id="patosCanvas"></canvas>
+      <p class="patos-titulo">Ahora tendr&aacute;s una sorpresa muy especial 🎁✨</p>
+      <div class="cofre-area" id="cofreArea">
+        <canvas id="cofreCanvas"></canvas>
+        <p class="cofre-hint">Toca el cofre 💝</p>
+      </div>
+      <p class="feliz-san-valentin" id="felizSV">
+        💕 Feliz D&iacute;a de San Valent&iacute;n 💕
+      </p>
+      <div id="fuegosContainer"></div>
+    </div>
+
+    <!-- QR Overlay -->
+    <div class="qr-overlay" id="qrOverlay">
+      <div class="qr-card">
+        <p class="qr-titulo">💝 Tu sorpresa 💝</p>
+        <img src="qr.png" alt="QR Sorpresa" class="qr-img">
+        <p class="qr-sub">Escanea el c&oacute;digo ❤️</p>
+        <button class="btn-siguiente" onclick="cerrarQR()" style="margin-top:15px; padding:10px 30px; font-size:1rem;">Cerrar</button>
+      </div>
+    </div>
   </div>
 
   <!-- Overlay zoom fotos -->
@@ -1535,6 +1742,7 @@
     <div class="punto" id="punto5"></div>
     <div class="punto" id="punto6"></div>
     <div class="punto" id="punto7"></div>
+    <div class="punto" id="punto8"></div>
   </div>
 
   <script type="importmap">
@@ -2094,6 +2302,530 @@
         }, 100);
       }, 500);
     };
+
+    window.pantallaPatos = function() {
+      const p6 = document.getElementById('pantalla6');
+      const p7 = document.getElementById('pantalla7');
+
+      p6.classList.remove('visible');
+      p6.classList.add('oculta');
+
+      setTimeout(() => {
+        p6.style.display = 'none';
+        p7.style.display = 'flex';
+
+        setTimeout(() => {
+          p7.classList.add('visible');
+          document.getElementById('punto7').classList.remove('activo');
+          document.getElementById('punto8').classList.add('activo');
+          iniciarEscenaPatos();
+          iniciarCofre();
+        }, 100);
+      }, 500);
+    };
+
+    // Escena de patos 3D
+    let escenaPatos, camaraPatos, rendererPatos, patos3D = [], tiempoPatos = 0;
+    let patosMouseX = 0, patosMouseY = 0;
+
+    function iniciarEscenaPatos() {
+      const canvas = document.getElementById('patosCanvas');
+      const container = document.getElementById('patosContainer');
+
+      escenaPatos = new THREE.Scene();
+      escenaPatos.fog = new THREE.FogExp2(0x1a2a3a, 0.04);
+
+      camaraPatos = new THREE.PerspectiveCamera(60, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+      camaraPatos.position.set(0, 8, 14);
+      camaraPatos.lookAt(0, 0, 0);
+
+      rendererPatos = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+      rendererPatos.setSize(canvas.clientWidth, canvas.clientHeight);
+      rendererPatos.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      // Luces
+      const luzAmb = new THREE.AmbientLight(0x6688aa, 0.8);
+      escenaPatos.add(luzAmb);
+
+      const luzSol = new THREE.DirectionalLight(0xffeedd, 1.2);
+      luzSol.position.set(5, 10, 5);
+      escenaPatos.add(luzSol);
+
+      const luzRosa = new THREE.PointLight(0xff69b4, 0.6, 30);
+      luzRosa.position.set(-5, 5, 3);
+      escenaPatos.add(luzRosa);
+
+      // Agua (plano grande)
+      const aguaGeo = new THREE.PlaneGeometry(40, 40, 60, 60);
+      const aguaMat = new THREE.MeshPhongMaterial({
+        color: 0x2288aa,
+        transparent: true,
+        opacity: 0.75,
+        shininess: 100,
+        emissive: 0x0a3344,
+        emissiveIntensity: 0.3,
+        side: THREE.DoubleSide
+      });
+      const agua = new THREE.Mesh(aguaGeo, aguaMat);
+      agua.rotation.x = -Math.PI / 2;
+      agua.position.y = -0.5;
+      agua.userData = { tipo: 'agua', posicionesOrig: [] };
+      const posArr = aguaGeo.attributes.position.array;
+      for (let i = 0; i < posArr.length; i++) {
+        agua.userData.posicionesOrig.push(posArr[i]);
+      }
+      escenaPatos.add(agua);
+
+      // Lirios / plantas flotantes
+      for (let i = 0; i < 12; i++) {
+        const ang = Math.random() * Math.PI * 2;
+        const dist = 4 + Math.random() * 10;
+        const lirioGrp = new THREE.Group();
+
+        // Hoja de lirio (disco plano)
+        const hojaGeo = new THREE.CircleGeometry(0.4 + Math.random() * 0.3, 12);
+        const hojaMat = new THREE.MeshPhongMaterial({
+          color: 0x22aa44,
+          transparent: true,
+          opacity: 0.8,
+          side: THREE.DoubleSide
+        });
+        const hoja = new THREE.Mesh(hojaGeo, hojaMat);
+        hoja.rotation.x = -Math.PI / 2;
+        lirioGrp.add(hoja);
+
+        // Flor sobre el lirio (algunos)
+        if (Math.random() > 0.5) {
+          const florGeo = new THREE.SphereGeometry(0.15, 8, 8);
+          const florMat = new THREE.MeshPhongMaterial({
+            color: [0xff69b4, 0xffffff, 0xffdd44, 0xff1493][Math.floor(Math.random() * 4)],
+            emissive: 0xff69b4,
+            emissiveIntensity: 0.1
+          });
+          const flor = new THREE.Mesh(florGeo, florMat);
+          flor.position.y = 0.1;
+          lirioGrp.add(flor);
+        }
+
+        lirioGrp.position.set(Math.cos(ang) * dist, -0.3, Math.sin(ang) * dist);
+        lirioGrp.userData = { tipo: 'lirio', angBase: ang, dist: dist };
+        escenaPatos.add(lirioGrp);
+      }
+
+      // Crear patos
+      const numPatos = 6;
+      for (let i = 0; i < numPatos; i++) {
+        const pato = crearPato3D();
+        const angulo = (i / numPatos) * Math.PI * 2;
+        const radio = 3 + Math.random() * 3;
+        pato.userData = {
+          angulo: angulo,
+          radio: radio,
+          velocidad: 0.15 + Math.random() * 0.15,
+          bobDelay: Math.random() * Math.PI * 2,
+          direccion: Math.random() > 0.5 ? 1 : -1
+        };
+        patos3D.push(pato);
+        escenaPatos.add(pato);
+      }
+
+      // Parallax
+      container.addEventListener('mousemove', (e) => {
+        const rect = container.getBoundingClientRect();
+        patosMouseX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+        patosMouseY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+      });
+
+      container.addEventListener('touchmove', (e) => {
+        const touch = e.touches[0];
+        const rect = container.getBoundingClientRect();
+        patosMouseX = ((touch.clientX - rect.left) / rect.width - 0.5) * 2;
+        patosMouseY = ((touch.clientY - rect.top) / rect.height - 0.5) * 2;
+      });
+
+      animarPatos();
+
+      window.addEventListener('resize', () => {
+        if (rendererPatos && canvas.clientWidth > 0) {
+          camaraPatos.aspect = canvas.clientWidth / canvas.clientHeight;
+          camaraPatos.updateProjectionMatrix();
+          rendererPatos.setSize(canvas.clientWidth, canvas.clientHeight);
+        }
+      });
+    }
+
+    function crearPato3D() {
+      const grupo = new THREE.Group();
+
+      // Cuerpo
+      const cuerpoGeo = new THREE.SphereGeometry(0.6, 16, 12);
+      cuerpoGeo.scale(1.3, 0.8, 0.9);
+      const cuerpoMat = new THREE.MeshPhongMaterial({
+        color: 0xffdd33,
+        shininess: 60,
+        emissive: 0xaa8800,
+        emissiveIntensity: 0.1
+      });
+      const cuerpo = new THREE.Mesh(cuerpoGeo, cuerpoMat);
+      grupo.add(cuerpo);
+
+      // Pecho blanco
+      const pechoGeo = new THREE.SphereGeometry(0.45, 12, 10);
+      pechoGeo.scale(1, 0.7, 0.8);
+      const pechoMat = new THREE.MeshPhongMaterial({ color: 0xfff8e0, shininess: 40 });
+      const pecho = new THREE.Mesh(pechoGeo, pechoMat);
+      pecho.position.set(0, -0.1, 0.15);
+      grupo.add(pecho);
+
+      // Cabeza
+      const cabezaGeo = new THREE.SphereGeometry(0.38, 14, 12);
+      const cabezaMat = new THREE.MeshPhongMaterial({
+        color: 0xffdd33,
+        shininess: 80,
+        emissive: 0xaa8800,
+        emissiveIntensity: 0.05
+      });
+      const cabeza = new THREE.Mesh(cabezaGeo, cabezaMat);
+      cabeza.position.set(0, 0.55, 0.3);
+      grupo.add(cabeza);
+
+      // Ojos
+      for (let side = -1; side <= 1; side += 2) {
+        const ojoGeo = new THREE.SphereGeometry(0.07, 8, 8);
+        const ojoMat = new THREE.MeshPhongMaterial({ color: 0x111111, shininess: 120 });
+        const ojo = new THREE.Mesh(ojoGeo, ojoMat);
+        ojo.position.set(side * 0.18, 0.62, 0.55);
+        grupo.add(ojo);
+
+        // Brillo del ojo
+        const brilloGeo = new THREE.SphereGeometry(0.025, 6, 6);
+        const brilloMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        const brillo = new THREE.Mesh(brilloGeo, brilloMat);
+        brillo.position.set(side * 0.16, 0.65, 0.58);
+        grupo.add(brillo);
+      }
+
+      // Pico
+      const picoGeo = new THREE.ConeGeometry(0.12, 0.3, 8);
+      picoGeo.scale(1, 1, 0.5);
+      const picoMat = new THREE.MeshPhongMaterial({ color: 0xff8800, shininess: 40 });
+      const pico = new THREE.Mesh(picoGeo, picoMat);
+      pico.position.set(0, 0.48, 0.62);
+      pico.rotation.x = Math.PI / 2;
+      grupo.add(pico);
+
+      // Cola
+      const colaGeo = new THREE.ConeGeometry(0.2, 0.4, 6);
+      const colaMat = new THREE.MeshPhongMaterial({ color: 0xeecc22 });
+      const cola = new THREE.Mesh(colaGeo, colaMat);
+      cola.position.set(0, 0.2, -0.7);
+      cola.rotation.x = -0.6;
+      grupo.add(cola);
+
+      // Alas
+      for (let side = -1; side <= 1; side += 2) {
+        const alaGeo = new THREE.SphereGeometry(0.3, 8, 8);
+        alaGeo.scale(0.4, 0.7, 1);
+        const alaMat = new THREE.MeshPhongMaterial({
+          color: 0xeebb22,
+          shininess: 30
+        });
+        const ala = new THREE.Mesh(alaGeo, alaMat);
+        ala.position.set(side * 0.55, 0.1, -0.1);
+        ala.rotation.z = side * 0.3;
+        grupo.add(ala);
+      }
+
+      // Mejillas rosadas
+      for (let side = -1; side <= 1; side += 2) {
+        const mejGeo = new THREE.SphereGeometry(0.08, 8, 8);
+        const mejMat = new THREE.MeshPhongMaterial({
+          color: 0xff8899,
+          transparent: true,
+          opacity: 0.5
+        });
+        const mej = new THREE.Mesh(mejGeo, mejMat);
+        mej.position.set(side * 0.28, 0.48, 0.5);
+        grupo.add(mej);
+      }
+
+      return grupo;
+    }
+
+    function animarPatos() {
+      requestAnimationFrame(animarPatos);
+      tiempoPatos += 0.01;
+
+      // Parallax camara
+      camaraPatos.position.x += (patosMouseX * 4 - camaraPatos.position.x) * 0.03;
+      camaraPatos.position.y += (8 - patosMouseY * 2 - camaraPatos.position.y) * 0.03;
+      camaraPatos.lookAt(0, 0, 0);
+
+      // Animar agua
+      escenaPatos.children.forEach(child => {
+        if (child.userData.tipo === 'agua') {
+          const pos = child.geometry.attributes.position;
+          const orig = child.userData.posicionesOrig;
+          for (let i = 0; i < pos.count; i++) {
+            const ox = orig[i * 3];
+            const oy = orig[i * 3 + 1];
+            pos.array[i * 3 + 2] = Math.sin(ox * 0.5 + tiempoPatos * 2) * 0.15 +
+                                     Math.cos(oy * 0.3 + tiempoPatos * 1.5) * 0.1;
+          }
+          pos.needsUpdate = true;
+        }
+
+        // Lirios flotan suavemente
+        if (child.userData.tipo === 'lirio') {
+          child.position.y = -0.3 + Math.sin(tiempoPatos * 1.5 + child.userData.angBase) * 0.05;
+          child.rotation.z = Math.sin(tiempoPatos + child.userData.angBase) * 0.05;
+        }
+      });
+
+      // Patos nadan en circulos
+      patos3D.forEach((pato) => {
+        const ud = pato.userData;
+        ud.angulo += ud.velocidad * 0.01 * ud.direccion;
+        const x = Math.cos(ud.angulo) * ud.radio;
+        const z = Math.sin(ud.angulo) * ud.radio;
+
+        pato.position.x = x;
+        pato.position.z = z;
+        pato.position.y = Math.sin(tiempoPatos * 2 + ud.bobDelay) * 0.08;
+
+        // El pato mira en la direccion que nada
+        const siguienteAng = ud.angulo + 0.05 * ud.direccion;
+        const lookX = Math.cos(siguienteAng) * ud.radio;
+        const lookZ = Math.sin(siguienteAng) * ud.radio;
+        pato.lookAt(lookX, pato.position.y, lookZ);
+
+        // Balanceo suave
+        pato.rotation.z = Math.sin(tiempoPatos * 3 + ud.bobDelay) * 0.05;
+      });
+
+      rendererPatos.render(escenaPatos, camaraPatos);
+    }
+
+    // Cofre 3D
+    let escenaCofre, camaraCofre, rendererCofre, cofreGrupo, cofreAbierto = false;
+
+    function iniciarCofre() {
+      const canvas = document.getElementById('cofreCanvas');
+
+      escenaCofre = new THREE.Scene();
+      camaraCofre = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
+      camaraCofre.position.set(0, 1.5, 4);
+      camaraCofre.lookAt(0, 0.3, 0);
+
+      rendererCofre = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+      rendererCofre.setSize(180, 180);
+      rendererCofre.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      // Luces
+      escenaCofre.add(new THREE.AmbientLight(0xffffff, 0.5));
+      const luzDir = new THREE.DirectionalLight(0xffeedd, 1);
+      luzDir.position.set(2, 3, 2);
+      escenaCofre.add(luzDir);
+      const luzDorada = new THREE.PointLight(0xffd700, 1.5, 10);
+      luzDorada.position.set(0, 2, 2);
+      escenaCofre.add(luzDorada);
+
+      cofreGrupo = new THREE.Group();
+
+      // Base del cofre
+      const baseGeo = new THREE.BoxGeometry(1.6, 0.8, 1);
+      const baseMat = new THREE.MeshPhongMaterial({
+        color: 0x8B4513,
+        shininess: 60,
+        emissive: 0x3a1a05,
+        emissiveIntensity: 0.15
+      });
+      const base = new THREE.Mesh(baseGeo, baseMat);
+      base.position.y = 0.4;
+      cofreGrupo.add(base);
+
+      // Bandas metalicas horizontales
+      for (let i = -1; i <= 1; i++) {
+        const bandaGeo = new THREE.BoxGeometry(1.65, 0.06, 1.05);
+        const bandaMat = new THREE.MeshPhongMaterial({
+          color: 0xDAA520,
+          shininess: 120,
+          emissive: 0x886600,
+          emissiveIntensity: 0.2
+        });
+        const banda = new THREE.Mesh(bandaGeo, bandaMat);
+        banda.position.set(0, 0.2 + i * 0.25, 0);
+        cofreGrupo.add(banda);
+      }
+
+      // Cerradura
+      const cerraduraGeo = new THREE.BoxGeometry(0.2, 0.25, 0.1);
+      const cerraduraMat = new THREE.MeshPhongMaterial({
+        color: 0xFFD700,
+        shininess: 150,
+        emissive: 0xaa8800,
+        emissiveIntensity: 0.3
+      });
+      const cerradura = new THREE.Mesh(cerraduraGeo, cerraduraMat);
+      cerradura.position.set(0, 0.35, 0.53);
+      cofreGrupo.add(cerradura);
+
+      // Ojo de cerradura
+      const ojoGeo = new THREE.CircleGeometry(0.04, 8);
+      const ojoMat = new THREE.MeshBasicMaterial({ color: 0x111111 });
+      const ojo = new THREE.Mesh(ojoGeo, ojoMat);
+      ojo.position.set(0, 0.37, 0.59);
+      cofreGrupo.add(ojo);
+
+      // Tapa (se abrira)
+      const tapaGrupo = new THREE.Group();
+      tapaGrupo.position.set(0, 0.8, -0.5);
+
+      const tapaGeo = new THREE.BoxGeometry(1.6, 0.15, 1);
+      const tapaMesh = new THREE.Mesh(tapaGeo, baseMat.clone());
+      tapaMesh.position.set(0, 0.075, 0.5);
+      tapaGrupo.add(tapaMesh);
+
+      // Tapa curva (arco superior)
+      const arcoGeo = new THREE.CylinderGeometry(0.5, 0.5, 1.6, 16, 1, false, 0, Math.PI);
+      const arcoMesh = new THREE.Mesh(arcoGeo, baseMat.clone());
+      arcoMesh.rotation.z = Math.PI / 2;
+      arcoMesh.position.set(0, 0.15, 0.5);
+      tapaGrupo.add(arcoMesh);
+
+      // Banda metalica en la tapa
+      const bandaTapaGeo = new THREE.BoxGeometry(1.65, 0.06, 1.05);
+      const bandaTapa = new THREE.Mesh(bandaTapaGeo, new THREE.MeshPhongMaterial({
+        color: 0xDAA520, shininess: 120, emissive: 0x886600, emissiveIntensity: 0.2
+      }));
+      bandaTapa.position.set(0, 0.075, 0.5);
+      tapaGrupo.add(bandaTapa);
+
+      cofreGrupo.add(tapaGrupo);
+      cofreGrupo.userData.tapa = tapaGrupo;
+      cofreGrupo.userData.tapaAng = 0;
+
+      // Brillo interior (se ve al abrir)
+      const brilloGeo = new THREE.PointLight(0xffd700, 0, 5);
+      brilloGeo.position.set(0, 0.6, 0);
+      cofreGrupo.add(brilloGeo);
+      cofreGrupo.userData.brilloInterior = brilloGeo;
+
+      cofreGrupo.position.y = -0.3;
+      escenaCofre.add(cofreGrupo);
+
+      // Click en cofre
+      const cofreAreaEl = document.getElementById('cofreArea');
+      cofreAreaEl.addEventListener('click', abrirCofre);
+      cofreAreaEl.addEventListener('touchstart', (e) => { e.preventDefault(); abrirCofre(); });
+
+      animarCofre();
+    }
+
+    function animarCofre() {
+      requestAnimationFrame(animarCofre);
+      if (!cofreGrupo) return;
+
+      // Flotar y rotar suavemente
+      const t = Date.now() * 0.001;
+      cofreGrupo.rotation.y = Math.sin(t * 0.5) * 0.3;
+      cofreGrupo.position.y = -0.3 + Math.sin(t * 1.2) * 0.05;
+
+      // Animar apertura
+      if (cofreAbierto && cofreGrupo.userData.tapaAng < 1.8) {
+        cofreGrupo.userData.tapaAng += 0.04;
+        cofreGrupo.userData.tapa.rotation.x = -cofreGrupo.userData.tapaAng;
+        cofreGrupo.userData.brilloInterior.intensity = Math.min(cofreGrupo.userData.tapaAng * 2, 4);
+      }
+
+      rendererCofre.render(escenaCofre, camaraCofre);
+    }
+
+    function abrirCofre() {
+      if (cofreAbierto) return;
+      cofreAbierto = true;
+
+      // Mostrar texto
+      document.getElementById('felizSV').classList.add('mostrar');
+
+      // Lanzar fuegos artificiales
+      lanzarFuegos();
+
+      // Mostrar QR despues de 2 segundos
+      setTimeout(() => {
+        document.getElementById('qrOverlay').classList.add('activo');
+      }, 2500);
+    }
+
+    window.cerrarQR = function() {
+      document.getElementById('qrOverlay').classList.remove('activo');
+    };
+
+    function lanzarFuegos() {
+      const container = document.getElementById('fuegosContainer');
+      const colores = ['#ff1493', '#ff69b4', '#ffd700', '#ff4444', '#da70d6', '#00bfff', '#ff6b8a', '#ffaa00'];
+
+      function crearFuego() {
+        const x = Math.random() * window.innerWidth;
+        const yBase = window.innerHeight * 0.3 + Math.random() * window.innerHeight * 0.3;
+
+        // Trail subiendo
+        const trail = document.createElement('div');
+        trail.className = 'fuego-trail';
+        trail.style.left = x + 'px';
+        trail.style.bottom = '0px';
+        trail.style.background = `linear-gradient(to top, transparent, ${colores[Math.floor(Math.random() * colores.length)]})`;
+        container.appendChild(trail);
+
+        setTimeout(() => {
+          trail.remove();
+
+          // Explosion
+          const fuego = document.createElement('div');
+          fuego.className = 'fuego';
+          fuego.style.left = x + 'px';
+          fuego.style.top = (window.innerHeight - yBase) + 'px';
+
+          const numPart = 25 + Math.floor(Math.random() * 15);
+          for (let i = 0; i < numPart; i++) {
+            const p = document.createElement('div');
+            p.className = 'fuego-particula';
+            const angulo = (i / numPart) * Math.PI * 2;
+            const dist = 50 + Math.random() * 100;
+            const fx = Math.cos(angulo) * dist;
+            const fy = Math.sin(angulo) * dist + Math.random() * 30;
+            p.style.setProperty('--fx', fx + 'px');
+            p.style.setProperty('--fy', fy + 'px');
+            const color = colores[Math.floor(Math.random() * colores.length)];
+            p.style.backgroundColor = color;
+            p.style.boxShadow = `0 0 6px ${color}, 0 0 12px ${color}`;
+            p.style.width = (3 + Math.random() * 4) + 'px';
+            p.style.height = p.style.width;
+            fuego.appendChild(p);
+          }
+
+          container.appendChild(fuego);
+          setTimeout(() => fuego.remove(), 1600);
+        }, 600);
+      }
+
+      // Lanzar multiples fuegos
+      for (let i = 0; i < 5; i++) {
+        setTimeout(crearFuego, i * 400);
+      }
+      // Segunda ronda
+      setTimeout(() => {
+        for (let i = 0; i < 4; i++) {
+          setTimeout(crearFuego, i * 500);
+        }
+      }, 2500);
+      // Tercera ronda
+      setTimeout(() => {
+        for (let i = 0; i < 3; i++) {
+          setTimeout(crearFuego, i * 600);
+        }
+      }, 5000);
+    }
 
     // Efecto de destello al hacer click
     function iniciarDestellos() {

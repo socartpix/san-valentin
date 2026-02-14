@@ -7,6 +7,8 @@ COPY foto3.jpg /usr/share/nginx/html/
 COPY fotoboda1.jpg /usr/share/nginx/html/
 COPY fotoboda2.jpg /usr/share/nginx/html/
 COPY fotoboda3.jpg /usr/share/nginx/html/
+COPY fotoboda4.png /usr/share/nginx/html/
+COPY qr.png /usr/share/nginx/html/
 
 EXPOSE 80
 
