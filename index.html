@@ -43,10 +43,15 @@
     /* Estilos del Sobre */
     .envelope-container {
       position: relative;
-      width: 320px;
-      height: 220px;
+      width: clamp(280px, 75vw, 380px);
+      height: clamp(190px, 50vw, 260px);
       cursor: pointer;
-      perspective: 1000px;
+      perspective: 1200px;
+      filter: drop-shadow(0 15px 35px rgba(0,0,0,0.35));
+    }
+
+    .envelope-container:hover {
+      filter: drop-shadow(0 20px 45px rgba(255,105,180,0.3));
     }
 
     .envelope {
@@ -56,85 +61,188 @@
       transform-style: preserve-3d;
     }
 
+    /* Cuerpo del sobre - limpio y elegante */
     .envelope-body {
       position: absolute;
       width: 100%;
       height: 100%;
-      background: linear-gradient(145deg, #d4a5a5 0%, #c99696 50%, #b87a7a 100%);
-      border-radius: 0 0 15px 15px;
-      box-shadow: 
-        inset 0 -5px 15px rgba(0,0,0,0.1),
-        0 10px 30px rgba(0,0,0,0.3);
+      background: linear-gradient(160deg, #e8d0d0 0%, #d4a5a5 40%, #c99696 70%, #bf8a8a 100%);
+      border-radius: 6px 6px 14px 14px;
+      box-shadow:
+        inset 0 -8px 20px rgba(0,0,0,0.08),
+        inset 0 1px 0 rgba(255,255,255,0.3);
+      overflow: hidden;
     }
 
-    .envelope-body::before,
-    .envelope-body::after {
-      content: '';
+    /* Triangulos interiores del sobre (solapas laterales) */
+    .envelope-fold-left,
+    .envelope-fold-right {
       position: absolute;
       top: 0;
-      width: 50%;
-      height: 100%;
-      background: linear-gradient(135deg, #c99696 0%, #b87a7a 100%);
-    }
-
-    .envelope-body::before {
-      left: 0;
-      border-radius: 0 0 0 15px;
-      transform: skewY(15deg);
-      transform-origin: top right;
-    }
-
-    .envelope-body::after {
-      right: 0;
-      border-radius: 0 0 15px 0;
-      transform: skewY(-15deg);
-      transform-origin: top left;
-    }
-
-    .envelope-flap {
-      position: absolute;
-      top: 0;
-      width: 100%;
-      height: 110px;
-      background: linear-gradient(180deg, #e8c4c4 0%, #d4a5a5 50%, #c99696 100%);
-      clip-path: polygon(0 0, 50% 100%, 100% 0);
-      transform-origin: top;
-      transition: transform 0.8s ease;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      z-index: 2;
-    }
-
-    .envelope.open .envelope-flap {
-      transform: rotateX(180deg) translateY(-5px);
-    }
-
-    .envelope-inner {
-      position: absolute;
-      bottom: 0;
-      left: 5%;
-      width: 90%;
-      height: 70%;
-      background: #fff5f5;
-      border-radius: 10px;
-      transform: translateY(0);
-      transition: transform 0.8s ease;
-      box-shadow: inset 0 0 20px rgba(255,182,193,0.3);
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      width: 0;
+      height: 0;
       z-index: 1;
     }
 
+    .envelope-fold-left {
+      left: 0;
+      border-left: calc(clamp(280px, 75vw, 380px) / 2) solid rgba(180,120,120,0.25);
+      border-top: calc(clamp(190px, 50vw, 260px) / 2) solid transparent;
+      border-bottom: calc(clamp(190px, 50vw, 260px) / 2) solid transparent;
+    }
+
+    .envelope-fold-right {
+      right: 0;
+      border-right: calc(clamp(280px, 75vw, 380px) / 2) solid rgba(180,120,120,0.25);
+      border-top: calc(clamp(190px, 50vw, 260px) / 2) solid transparent;
+      border-bottom: calc(clamp(190px, 50vw, 260px) / 2) solid transparent;
+    }
+
+    /* Solapa inferior (triangulo abajo) */
+    .envelope-fold-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-bottom: calc(clamp(190px, 50vw, 260px) * 0.45) solid rgba(160,100,100,0.2);
+      border-left: calc(clamp(280px, 75vw, 380px) / 2) solid transparent;
+      border-right: calc(clamp(280px, 75vw, 380px) / 2) solid transparent;
+      z-index: 1;
+    }
+
+    /* Linea decorativa del borde */
+    .envelope-body::after {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      right: 8px;
+      bottom: 8px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 4px 4px 10px 10px;
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    /* Solapa superior triangular */
+    .envelope-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 55%;
+      background: linear-gradient(180deg, #f0d5d5 0%, #e0bebe 40%, #d4a5a5 100%);
+      clip-path: polygon(0 0, 50% 100%, 100% 0);
+      transform-origin: top center;
+      transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 4;
+    }
+
+    .envelope-flap::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 50%);
+      clip-path: polygon(0 0, 50% 100%, 100% 0);
+    }
+
+    .envelope.open .envelope-flap {
+      transform: rotateX(180deg);
+    }
+
+    /* Sello de lacre */
+    .sello-lacre {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50px;
+      height: 50px;
+      background: radial-gradient(circle at 35% 35%, #e04060, #c0283f 50%, #8b1a2b 100%);
+      border-radius: 50%;
+      z-index: 5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow:
+        0 3px 10px rgba(0,0,0,0.3),
+        inset 0 -2px 5px rgba(0,0,0,0.15),
+        inset 0 2px 3px rgba(255,255,255,0.15);
+      transition: transform 0.8s ease, opacity 0.5s ease;
+    }
+
+    .sello-lacre::before {
+      content: '';
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255,200,200,0.25);
+    }
+
+    .sello-lacre span {
+      font-size: 1.4rem;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+    }
+
+    .envelope.open .sello-lacre {
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 0;
+    }
+
+    /* Carta que sale */
+    .envelope-inner {
+      position: absolute;
+      bottom: 8px;
+      left: 6%;
+      width: 88%;
+      height: 75%;
+      background: linear-gradient(180deg, #fffaf5 0%, #fff5f0 50%, #fff0eb 100%);
+      border-radius: 8px;
+      transform: translateY(0);
+      transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow:
+        0 1px 3px rgba(0,0,0,0.08),
+        inset 0 0 25px rgba(255,182,193,0.15);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 3;
+    }
+
+    /* Lineas de carta */
+    .envelope-inner::before {
+      content: '';
+      position: absolute;
+      top: 20%;
+      left: 15%;
+      right: 15%;
+      height: 50%;
+      background: repeating-linear-gradient(
+        180deg,
+        transparent,
+        transparent 18px,
+        rgba(200,180,180,0.2) 18px,
+        rgba(200,180,180,0.2) 19px
+      );
+      pointer-events: none;
+    }
+
     .envelope.open .envelope-inner {
-      transform: translateY(-120px) rotateX(-10deg);
+      transform: translateY(-130px) rotateX(-5deg);
     }
 
     .carta-contenido {
       text-align: center;
-      padding: 20px;
+      padding: 25px;
       color: #8b4557;
       opacity: 0;
-      transition: opacity 0.5s ease 0.5s;
+      transition: opacity 0.6s ease 0.6s;
+      z-index: 1;
     }
 
     .envelope.open .carta-contenido {
@@ -142,35 +250,69 @@
     }
 
     .carta-contenido h2 {
-      font-size: 1.2rem;
-      margin-bottom: 10px;
-      color: #c99696;
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+      color: #c4717e;
+      font-style: italic;
+      letter-spacing: 1px;
+    }
+
+    .carta-contenido .carta-decoracion {
+      font-size: 0.75rem;
+      color: #d4a5a5;
+      letter-spacing: 4px;
+      margin-bottom: 8px;
     }
 
     .corazon-small {
-      font-size: 2rem;
-      animation: heartbeat 1s infinite;
+      font-size: 2.2rem;
+      animation: heartbeat 1.2s ease-in-out infinite;
     }
 
     @keyframes heartbeat {
       0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
+      15% { transform: scale(1.15); }
+      30% { transform: scale(1); }
+      45% { transform: scale(1.1); }
     }
 
     .click-hint {
       position: absolute;
-      bottom: -40px;
+      bottom: -50px;
       left: 50%;
       transform: translateX(-50%);
-      color: #d4a5a5;
-      font-size: 0.9rem;
+      color: #e0bebe;
+      font-size: 0.85rem;
       white-space: nowrap;
-      animation: pulse-hint 2s infinite;
+      animation: pulse-hint 2.5s ease-in-out infinite;
+      letter-spacing: 2px;
+      font-style: italic;
     }
 
     @keyframes pulse-hint {
-      0%, 100% { opacity: 0.6; }
-      50% { opacity: 1; }
+      0%, 100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
+      50% { opacity: 1; transform: translateX(-50%) translateY(-5px); }
+    }
+
+    /* Corazones flotando alrededor del sobre */
+    .corazon-flotante {
+      position: absolute;
+      font-size: 1.2rem;
+      opacity: 0;
+      animation: corazon-subir 4s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes corazon-subir {
+      0% { opacity: 0; transform: translateY(20px) scale(0.5); }
+      20% { opacity: 0.6; }
+      80% { opacity: 0.4; }
+      100% { opacity: 0; transform: translateY(-80px) scale(1) rotate(20deg); }
+    }
+
+    .corazon-sello {
+      display: none;
     }
 
     /* Mensaje de la primera pantalla */
@@ -293,7 +435,8 @@
     }
 
     .btn-siguiente {
-      margin-top: 40px;
+      margin-top: 30px;
+      margin-bottom: 50px;
       padding: 15px 50px;
       font-size: 1.2rem;
       background: linear-gradient(45deg, #ff1493, #ff69b4);
@@ -305,11 +448,61 @@
       box-shadow: 0 0 30px rgba(255, 105, 180, 0.5);
       transition: all 0.3s ease;
       font-family: 'Georgia', serif;
+      position: relative;
     }
 
     .btn-siguiente:hover {
       transform: scale(1.1);
       box-shadow: 0 0 50px #ff1493;
+    }
+
+    /* Zoom al hacer click en imagenes */
+    .foto-zoom-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 200;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      cursor: pointer;
+      backdrop-filter: blur(5px);
+    }
+
+    .foto-zoom-overlay.activo {
+      opacity: 1;
+    }
+
+    .foto-zoom-overlay img {
+      max-width: 90vw;
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: 10px;
+      box-shadow: 0 0 60px rgba(255, 105, 180, 0.4);
+      transform: scale(0.5);
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .foto-zoom-overlay.activo img {
+      transform: scale(1);
+    }
+
+    .foto-zoom-cerrar {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity 0.3s;
+      z-index: 201;
+    }
+
+    .foto-zoom-cerrar:hover {
+      opacity: 1;
     }
 
     .rosa-decorativa {
@@ -327,11 +520,11 @@
 
     .indicador-pestanas {
       position: fixed;
-      bottom: 30px;
+      bottom: 15px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
-      gap: 15px;
+      gap: 12px;
       z-index: 30;
     }
 
@@ -416,6 +609,12 @@
       border-radius: 2px;
       display: block;
       filter: saturate(1.1) contrast(1.05);
+      cursor: pointer;
+      transition: filter 0.3s ease;
+    }
+
+    .postal img:hover {
+      filter: saturate(1.3) contrast(1.1) brightness(1.05);
     }
 
     .postal-sello {
@@ -600,9 +799,9 @@
 
     .texto-arco {
       position: relative;
-      width: clamp(280px, 70vw, 500px);
-      height: clamp(140px, 20vh, 180px);
-      margin-bottom: 20px;
+      width: clamp(320px, 85vw, 700px);
+      height: clamp(100px, 18vh, 160px);
+      margin-bottom: 25px;
       z-index: 5;
     }
 
@@ -615,9 +814,9 @@
     .texto-arco textPath {
       fill: #ffd700;
       font-family: 'Georgia', serif;
-      font-size: clamp(14px, 2.5vw, 22px);
+      font-size: 24px;
       font-style: italic;
-      letter-spacing: 2px;
+      letter-spacing: 1.5px;
     }
 
     .texto-arco-glow {
@@ -693,6 +892,12 @@
       border-radius: 2px;
       display: block;
       filter: sepia(0.08) saturate(1.15) contrast(1.05);
+      cursor: pointer;
+      transition: filter 0.3s ease;
+    }
+
+    .foto-boda img:hover {
+      filter: sepia(0.05) saturate(1.3) contrast(1.1) brightness(1.05);
     }
 
     .foto-boda-marco-dorado {
@@ -975,19 +1180,34 @@
 
   <!-- Pantalla 0: Sobre -->
   <div class="pantalla visible" id="pantalla0">
+    <!-- Corazones flotando de fondo -->
+    <div class="corazon-flotante" style="left:15%; bottom:40%; animation-delay:0s;">💗</div>
+    <div class="corazon-flotante" style="right:18%; bottom:35%; animation-delay:1.2s;">💕</div>
+    <div class="corazon-flotante" style="left:25%; bottom:50%; animation-delay:2.4s;">💖</div>
+    <div class="corazon-flotante" style="right:28%; bottom:45%; animation-delay:0.6s;">💗</div>
+    <div class="corazon-flotante" style="left:40%; bottom:38%; animation-delay:1.8s;">💕</div>
+    <div class="corazon-flotante" style="right:40%; bottom:52%; animation-delay:3s;">💖</div>
+    <div class="corazon-flotante" style="left:10%; bottom:55%; animation-delay:3.6s;">💗</div>
+    <div class="corazon-flotante" style="right:12%; bottom:48%; animation-delay:0.3s;">💕</div>
+
     <div class="envelope-container" onclick="abrirCarta()">
       <div class="envelope" id="envelope">
-        <div class="corazon-sello">💕</div>
-        <div class="envelope-flap"></div>
+        <div class="envelope-body">
+          <div class="envelope-fold-left"></div>
+          <div class="envelope-fold-right"></div>
+          <div class="envelope-fold-bottom"></div>
+        </div>
         <div class="envelope-inner">
           <div class="carta-contenido">
-            <h2>Para ti ❤️</h2>
+            <div class="carta-decoracion">~ ♡ ~</div>
+            <h2>Para ti</h2>
             <span class="corazon-small">💌</span>
           </div>
         </div>
-        <div class="envelope-body"></div>
+        <div class="envelope-flap"></div>
+        <div class="sello-lacre"><span>💕</span></div>
       </div>
-      <span class="click-hint">Toca para abrir</span>
+      <span class="click-hint">toca para abrir</span>
     </div>
   </div>
 
@@ -1092,7 +1312,7 @@
 
       <p class="titulo-postales">Nuestros momentos favoritos ❤️</p>
     </div>
-    <button class="btn-siguiente" onclick="pantallaBoda()" style="position:absolute; bottom:5%; z-index:20;">Continuar ❤️</button>
+    <button class="btn-siguiente" onclick="pantallaBoda()">Continuar ❤️</button>
   </div>
 
   <!-- Pantalla 5: Boda -->
@@ -1114,9 +1334,9 @@
 
       <!-- Texto en arco -->
       <div class="texto-arco texto-arco-glow">
-        <svg viewBox="0 0 500 180">
+        <svg viewBox="0 0 700 150">
           <defs>
-            <path id="arco" d="M 30,160 Q 250,10 470,160" fill="none"/>
+            <path id="arco" d="M 10,140 Q 350,-10 690,140" fill="none"/>
           </defs>
           <text>
             <textPath href="#arco" startOffset="50%" text-anchor="middle">
@@ -1142,7 +1362,7 @@
         </div>
       </div>
     </div>
-    <button class="btn-siguiente" onclick="pantallaAxolote()" style="position:absolute; bottom:5%; z-index:20; background: linear-gradient(45deg, #d4af37, #f0d060); color:#5a3e1b;">Continuar 💍</button>
+    <button class="btn-siguiente" onclick="pantallaAxolote()" style="background: linear-gradient(45deg, #d4af37, #f0d060); color:#5a3e1b;">Continuar 💍</button>
   </div>
 
   <!-- Pantalla 6: Final Axolote -->
@@ -1299,6 +1519,12 @@
 
       <span class="toca-hint">Toca para hacer magia ✨</span>
     </div>
+  </div>
+
+  <!-- Overlay zoom fotos -->
+  <div class="foto-zoom-overlay" id="fotoZoom" onclick="cerrarZoom()">
+    <span class="foto-zoom-cerrar">&times;</span>
+    <img id="fotoZoomImg" src="" alt="Zoom">
   </div>
 
   <div class="indicador-pestanas">
@@ -2016,6 +2242,27 @@
         });
       });
     }
+
+    // Zoom de fotos al hacer click
+    window.cerrarZoom = function() {
+      const overlay = document.getElementById('fotoZoom');
+      overlay.classList.remove('activo');
+      setTimeout(() => { overlay.style.display = 'none'; }, 400);
+    };
+
+    document.addEventListener('click', (e) => {
+      const img = e.target;
+      if (img.tagName === 'IMG' && (img.closest('.postal') || img.closest('.foto-boda'))) {
+        e.stopPropagation();
+        const overlay = document.getElementById('fotoZoom');
+        const zoomImg = document.getElementById('fotoZoomImg');
+        zoomImg.src = img.src;
+        overlay.style.display = 'flex';
+        requestAnimationFrame(() => {
+          overlay.classList.add('activo');
+        });
+      }
+    });
   </script>
 </body>
 </html>
