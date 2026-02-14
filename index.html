@@ -1102,26 +1102,35 @@
     .feliz-san-valentin {
       position: absolute;
       bottom: 6%;
-      left: 50%;
-      transform: translateX(-50%);
+      left: 0;
+      right: 0;
+      width: 100%;
       color: #ff69b4;
       font-size: clamp(1.3rem, 4vw, 2.2rem);
       text-align: center;
-      white-space: nowrap;
       text-shadow: 0 0 20px #ff1493, 0 0 40px #ff69b4, 0 0 60px #ff0066;
       z-index: 10;
       opacity: 0;
       pointer-events: none;
-      animation: none;
+      transition: opacity 0.8s ease;
+    }
+
+    .feliz-san-valentin.ocultar {
+      opacity: 0 !important;
     }
 
     .feliz-san-valentin.mostrar {
-      animation: feliz-aparecer 1s ease forwards, pulse 2s ease-in-out 1s infinite;
+      animation: feliz-aparecer 1s ease forwards, feliz-pulse 2s ease-in-out 1s infinite;
     }
 
     @keyframes feliz-aparecer {
-      0% { opacity: 0; transform: translateX(-50%) scale(0.5); }
-      100% { opacity: 1; transform: translateX(-50%) scale(1); }
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    @keyframes feliz-pulse {
+      0%, 100% { text-shadow: 0 0 20px #ff1493, 0 0 40px #ff69b4, 0 0 60px #ff0066; }
+      50% { text-shadow: 0 0 30px #ff1493, 0 0 60px #ff69b4, 0 0 90px #ff0066, 0 0 120px #ff1493; }
     }
 
     /* QR Overlay */
@@ -2898,10 +2907,13 @@
       // Lanzar fuegos artificiales
       lanzarFuegos();
 
-      // Mostrar QR despues de 2 segundos
+      // Desvanecer texto y mostrar QR
+      setTimeout(() => {
+        document.getElementById('felizSV').classList.add('ocultar');
+      }, 2000);
       setTimeout(() => {
         document.getElementById('qrOverlay').classList.add('activo');
-      }, 2500);
+      }, 2800);
     }
 
     window.cerrarQR = function() {
