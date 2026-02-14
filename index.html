@@ -40,245 +40,124 @@
       pointer-events: none;
     }
 
-    /* Estilos del Sobre */
-    .envelope-container {
+    /* === Pantalla de Carga === */
+    .loading-screen {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(135deg, #1a0a1e 0%, #2d1b30 50%, #1a0a1e 100%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.8s ease;
+    }
+
+    .loading-screen.ocultar {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .pato-caminando {
+      width: 80px;
+      height: 80px;
       position: relative;
-      width: clamp(280px, 75vw, 380px);
-      height: clamp(190px, 50vw, 260px);
-      cursor: pointer;
-      perspective: 1200px;
-      filter: drop-shadow(0 15px 35px rgba(0,0,0,0.35));
+      animation: pato-caminar-rebote 0.6s ease-in-out infinite;
+      margin-bottom: 30px;
     }
 
-    .envelope-container:hover {
-      filter: drop-shadow(0 20px 45px rgba(255,105,180,0.3));
+    @keyframes pato-caminar-rebote {
+      0%, 100% { transform: translateY(0) rotate(-3deg); }
+      50% { transform: translateY(-12px) rotate(3deg); }
     }
 
-    .envelope {
-      position: absolute;
+    .pato-caminando svg {
       width: 100%;
       height: 100%;
-      transform-style: preserve-3d;
     }
 
-    /* Cuerpo del sobre - limpio y elegante */
-    .envelope-body {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(160deg, #e8d0d0 0%, #d4a5a5 40%, #c99696 70%, #bf8a8a 100%);
-      border-radius: 6px 6px 14px 14px;
-      box-shadow:
-        inset 0 -8px 20px rgba(0,0,0,0.08),
-        inset 0 1px 0 rgba(255,255,255,0.3);
+    .loading-patas {
+      animation: patas-mover 0.3s linear infinite;
+      transform-origin: center top;
+    }
+
+    @keyframes patas-mover {
+      0%, 100% { transform: rotate(-15deg); }
+      50% { transform: rotate(15deg); }
+    }
+
+    .loading-texto {
+      color: #ffd4e5;
+      font-size: 1.1rem;
+      font-style: italic;
+      margin-bottom: 20px;
+      animation: loading-dots 1.5s infinite;
+    }
+
+    @keyframes loading-dots {
+      0% { content: ''; }
+      33% { opacity: 0.6; }
+      66% { opacity: 1; }
+      100% { opacity: 0.6; }
+    }
+
+    .loading-barra-fondo {
+      width: clamp(200px, 60vw, 300px);
+      height: 6px;
+      background: rgba(255, 105, 180, 0.15);
+      border-radius: 3px;
       overflow: hidden;
     }
 
-    /* Triangulos interiores del sobre (solapas laterales) */
-    .envelope-fold-left,
-    .envelope-fold-right {
-      position: absolute;
-      top: 0;
-      width: 0;
-      height: 0;
-      z-index: 1;
-    }
-
-    .envelope-fold-left {
-      left: 0;
-      border-left: calc(clamp(280px, 75vw, 380px) / 2) solid rgba(180,120,120,0.25);
-      border-top: calc(clamp(190px, 50vw, 260px) / 2) solid transparent;
-      border-bottom: calc(clamp(190px, 50vw, 260px) / 2) solid transparent;
-    }
-
-    .envelope-fold-right {
-      right: 0;
-      border-right: calc(clamp(280px, 75vw, 380px) / 2) solid rgba(180,120,120,0.25);
-      border-top: calc(clamp(190px, 50vw, 260px) / 2) solid transparent;
-      border-bottom: calc(clamp(190px, 50vw, 260px) / 2) solid transparent;
-    }
-
-    /* Solapa inferior (triangulo abajo) */
-    .envelope-fold-bottom {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 0;
-      border-bottom: calc(clamp(190px, 50vw, 260px) * 0.45) solid rgba(160,100,100,0.2);
-      border-left: calc(clamp(280px, 75vw, 380px) / 2) solid transparent;
-      border-right: calc(clamp(280px, 75vw, 380px) / 2) solid transparent;
-      z-index: 1;
-    }
-
-    /* Linea decorativa del borde */
-    .envelope-body::after {
-      content: '';
-      position: absolute;
-      top: 8px;
-      left: 8px;
-      right: 8px;
-      bottom: 8px;
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 4px 4px 10px 10px;
-      pointer-events: none;
-      z-index: 3;
-    }
-
-    /* Solapa superior triangular */
-    .envelope-flap {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 55%;
-      background: linear-gradient(180deg, #f0d5d5 0%, #e0bebe 40%, #d4a5a5 100%);
-      clip-path: polygon(0 0, 50% 100%, 100% 0);
-      transform-origin: top center;
-      transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 4;
-    }
-
-    .envelope-flap::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
+    .loading-barra {
       height: 100%;
-      background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 50%);
-      clip-path: polygon(0 0, 50% 100%, 100% 0);
+      width: 0%;
+      background: linear-gradient(90deg, #ff1493, #ff69b4, #da70d6);
+      border-radius: 3px;
+      transition: width 0.3s ease;
+      box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
     }
 
-    .envelope.open .envelope-flap {
-      transform: rotateX(180deg);
-    }
-
-    /* Sello de lacre */
-    .sello-lacre {
+    .loading-huellas {
       position: absolute;
-      top: 40%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 50px;
-      height: 50px;
-      background: radial-gradient(circle at 35% 35%, #e04060, #c0283f 50%, #8b1a2b 100%);
-      border-radius: 50%;
-      z-index: 5;
+      bottom: 15%;
+      width: 100%;
       display: flex;
       justify-content: center;
-      align-items: center;
-      box-shadow:
-        0 3px 10px rgba(0,0,0,0.3),
-        inset 0 -2px 5px rgba(0,0,0,0.15),
-        inset 0 2px 3px rgba(255,255,255,0.15);
-      transition: transform 0.8s ease, opacity 0.5s ease;
+      gap: 30px;
+      opacity: 0.2;
     }
 
-    .sello-lacre::before {
-      content: '';
-      position: absolute;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: 1.5px solid rgba(255,200,200,0.25);
+    .huella {
+      font-size: 1rem;
+      animation: huella-aparecer 2s ease infinite;
     }
 
-    .sello-lacre span {
-      font-size: 1.4rem;
-      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+    .huella:nth-child(2) { animation-delay: 0.3s; }
+    .huella:nth-child(3) { animation-delay: 0.6s; }
+    .huella:nth-child(4) { animation-delay: 0.9s; }
+    .huella:nth-child(5) { animation-delay: 1.2s; }
+
+    @keyframes huella-aparecer {
+      0%, 100% { opacity: 0.1; transform: scale(0.8); }
+      50% { opacity: 0.4; transform: scale(1); }
     }
 
-    .envelope.open .sello-lacre {
-      transform: translate(-50%, -50%) scale(0);
-      opacity: 0;
+    /* === Sobre 3D con canvas === */
+    .sobre-3d-container {
+      position: relative;
+      z-index: 10;
+      cursor: pointer;
     }
 
-    /* Carta que sale */
-    .envelope-inner {
-      position: absolute;
-      bottom: 8px;
-      left: 6%;
-      width: 88%;
-      height: 75%;
-      background: linear-gradient(180deg, #fffaf5 0%, #fff5f0 50%, #fff0eb 100%);
-      border-radius: 8px;
-      transform: translateY(0);
-      transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow:
-        0 1px 3px rgba(0,0,0,0.08),
-        inset 0 0 25px rgba(255,182,193,0.15);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 3;
-    }
-
-    /* Lineas de carta */
-    .envelope-inner::before {
-      content: '';
-      position: absolute;
-      top: 20%;
-      left: 15%;
-      right: 15%;
-      height: 50%;
-      background: repeating-linear-gradient(
-        180deg,
-        transparent,
-        transparent 18px,
-        rgba(200,180,180,0.2) 18px,
-        rgba(200,180,180,0.2) 19px
-      );
-      pointer-events: none;
-    }
-
-    .envelope.open .envelope-inner {
-      transform: translateY(-130px) rotateX(-5deg);
-    }
-
-    .carta-contenido {
-      text-align: center;
-      padding: 25px;
-      color: #8b4557;
-      opacity: 0;
-      transition: opacity 0.6s ease 0.6s;
-      z-index: 1;
-    }
-
-    .envelope.open .carta-contenido {
-      opacity: 1;
-    }
-
-    .carta-contenido h2 {
-      font-size: 1.3rem;
-      margin-bottom: 8px;
-      color: #c4717e;
-      font-style: italic;
-      letter-spacing: 1px;
-    }
-
-    .carta-contenido .carta-decoracion {
-      font-size: 0.75rem;
-      color: #d4a5a5;
-      letter-spacing: 4px;
-      margin-bottom: 8px;
-    }
-
-    .corazon-small {
-      font-size: 2.2rem;
-      animation: heartbeat 1.2s ease-in-out infinite;
-    }
-
-    @keyframes heartbeat {
-      0%, 100% { transform: scale(1); }
-      15% { transform: scale(1.15); }
-      30% { transform: scale(1); }
-      45% { transform: scale(1.1); }
+    .sobre-3d-container canvas {
+      width: clamp(280px, 70vw, 420px) !important;
+      height: clamp(250px, 60vw, 380px) !important;
     }
 
     .click-hint {
       position: absolute;
-      bottom: -50px;
+      bottom: -30px;
       left: 50%;
       transform: translateX(-50%);
       color: #e0bebe;
@@ -294,7 +173,6 @@
       50% { opacity: 1; transform: translateX(-50%) translateY(-5px); }
     }
 
-    /* Corazones flotando alrededor del sobre */
     .corazon-flotante {
       position: absolute;
       font-size: 1.2rem;
@@ -309,10 +187,6 @@
       20% { opacity: 0.6; }
       80% { opacity: 0.4; }
       100% { opacity: 0; transform: translateY(-80px) scale(1) rotate(20deg); }
-    }
-
-    .corazon-sello {
-      display: none;
     }
 
     /* Mensaje de la primera pantalla */
@@ -1352,37 +1226,62 @@
   </style>
 </head>
 <body>
+  <!-- Pantalla de Carga -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="pato-caminando">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <!-- Cuerpo -->
+        <ellipse cx="50" cy="55" rx="28" ry="22" fill="#ffdd33"/>
+        <ellipse cx="50" cy="60" rx="22" ry="16" fill="#fff3c0"/>
+        <!-- Cabeza -->
+        <circle cx="50" cy="32" r="16" fill="#ffdd33"/>
+        <!-- Ojo -->
+        <circle cx="55" cy="29" r="4" fill="#222"/>
+        <circle cx="57" cy="27" r="1.5" fill="white"/>
+        <!-- Pico -->
+        <ellipse cx="67" cy="35" rx="10" ry="4" fill="#ff8800"/>
+        <!-- Mejilla -->
+        <ellipse cx="43" cy="38" rx="5" ry="3" fill="rgba(255,120,150,0.4)"/>
+        <!-- Ala -->
+        <ellipse cx="35" cy="52" rx="10" ry="14" fill="#eebb22" transform="rotate(-15,35,52)"/>
+        <!-- Pata izquierda -->
+        <g class="loading-patas">
+          <rect x="40" y="73" width="4" height="12" rx="2" fill="#ff8800"/>
+          <ellipse cx="42" cy="86" rx="6" ry="3" fill="#ff8800"/>
+        </g>
+        <!-- Pata derecha -->
+        <g class="loading-patas" style="animation-delay:0.15s;">
+          <rect x="55" y="73" width="4" height="12" rx="2" fill="#ff8800"/>
+          <ellipse cx="57" cy="86" rx="6" ry="3" fill="#ff8800"/>
+        </g>
+      </svg>
+    </div>
+    <p class="loading-texto" id="loadingTexto">Preparando algo especial...</p>
+    <div class="loading-barra-fondo">
+      <div class="loading-barra" id="loadingBarra"></div>
+    </div>
+    <div class="loading-huellas">
+      <span class="huella">🐾</span>
+      <span class="huella">🐾</span>
+      <span class="huella">🐾</span>
+      <span class="huella">🐾</span>
+      <span class="huella">🐾</span>
+    </div>
+  </div>
+
   <div id="escena-3d"></div>
 
-  <!-- Pantalla 0: Sobre -->
-  <div class="pantalla visible" id="pantalla0">
-    <!-- Corazones flotando de fondo -->
+  <!-- Pantalla 0: Sobre 3D -->
+  <div class="pantalla" id="pantalla0" style="display:none;">
     <div class="corazon-flotante" style="left:15%; bottom:40%; animation-delay:0s;">💗</div>
     <div class="corazon-flotante" style="right:18%; bottom:35%; animation-delay:1.2s;">💕</div>
     <div class="corazon-flotante" style="left:25%; bottom:50%; animation-delay:2.4s;">💖</div>
     <div class="corazon-flotante" style="right:28%; bottom:45%; animation-delay:0.6s;">💗</div>
     <div class="corazon-flotante" style="left:40%; bottom:38%; animation-delay:1.8s;">💕</div>
     <div class="corazon-flotante" style="right:40%; bottom:52%; animation-delay:3s;">💖</div>
-    <div class="corazon-flotante" style="left:10%; bottom:55%; animation-delay:3.6s;">💗</div>
-    <div class="corazon-flotante" style="right:12%; bottom:48%; animation-delay:0.3s;">💕</div>
 
-    <div class="envelope-container" onclick="abrirCarta()">
-      <div class="envelope" id="envelope">
-        <div class="envelope-body">
-          <div class="envelope-fold-left"></div>
-          <div class="envelope-fold-right"></div>
-          <div class="envelope-fold-bottom"></div>
-        </div>
-        <div class="envelope-inner">
-          <div class="carta-contenido">
-            <div class="carta-decoracion">~ ♡ ~</div>
-            <h2>Para ti</h2>
-            <span class="corazon-small">💌</span>
-          </div>
-        </div>
-        <div class="envelope-flap"></div>
-        <div class="sello-lacre"><span>💕</span></div>
-      </div>
+    <div class="sobre-3d-container" id="sobre3dContainer">
+      <canvas id="sobreCanvas"></canvas>
       <span class="click-hint">toca para abrir</span>
     </div>
   </div>
@@ -2995,6 +2894,138 @@
         });
       }
     });
+
+    // === MUSICA DE FONDO ROMÁNTICA ===
+    class MusicaFondo {
+      constructor() {
+        this.audioCtx = null;
+        this.isPlaying = false;
+        this.intervalId = null;
+        this.notaActual = 0;
+        this.notas = [
+          { nota: 'C4', duracion: 1.5 },
+          { nota: 'E4', duracion: 1.5 },
+          { nota: 'G4', duracion: 1.5 },
+          { nota: 'B4', duracion: 1.5 },
+          { nota: 'C5', duracion: 1.5 },
+          { nota: 'B4', duracion: 1.5 },
+          { nota: 'G4', duracion: 1.5 },
+          { nota: 'E4', duracion: 1.5 },
+          { nota: 'D4', duracion: 1.5 },
+          { nota: 'F#4', duracion: 1.5 },
+          { nota: 'A4', duracion: 1.5 },
+          { nota: 'C5', duracion: 1.5 },
+          { nota: 'B4', duracion: 1.5 },
+          { nota: 'A4', duracion: 1.5 },
+          { nota: 'F#4', duracion: 1.5 },
+          { nota: 'D4', duracion: 1.5 },
+          { nota: 'E4', duracion: 1.5 },
+          { nota: 'G4', duracion: 1.5 },
+          { nota: 'C5', duracion: 1.5 },
+          { nota: 'A4', duracion: 1.5 },
+          { nota: 'G4', duracion: 1.5 },
+          { nota: 'E4', duracion: 1.5 },
+          { nota: 'D4', duracion: 1.5 },
+          { nota: 'C4', duracion: 3 }
+        ];
+        this.frecuencias = {
+          'C4': 261.63, 'D4': 293.66, 'E4': 329.63, 'F4': 349.23,
+          'F#4': 369.99, 'G4': 392.00, 'G#4': 415.30, 'A4': 440.00,
+          'A#4': 466.16, 'B4': 493.88, 'C5': 523.25, 'D5': 587.33,
+          'E5': 659.25
+        };
+      }
+
+      iniciar() {
+        if (this.isPlaying) return;
+        
+        this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        this.isPlaying = true;
+        this.notaActual = 0;
+        this.reproducirNota();
+        
+        this.intervalId = setInterval(() => {
+          this.reproducirNota();
+        }, 1500);
+      }
+
+      reproducirNota() {
+        if (!this.audioCtx || this.notaActual >= this.notas.length) {
+          this.notaActual = 0;
+        }
+
+        const notaActual = this.notas[this.notaActual];
+        const freq = this.frecuencias[notaActual.nota];
+        const duracion = notaActual.duracion;
+
+        this.tocarNota(freq, duracion * 0.9);
+        this.notaActual++;
+      }
+
+      tocarNota(frecuencia, duracion) {
+        if (!this.audioCtx) return;
+
+        const oscilador = this.audioCtx.createOscillator();
+        const ganancia = this.audioCtx.createGain();
+        const osciladorArmonico = this.audioCtx.createOscillator();
+        const gananciaArmonica = this.audioCtx.createGain();
+
+        oscilador.type = 'sine';
+        oscilador.frequency.value = frecuencia;
+        
+        osciladorArmonico.type = 'sine';
+        osciladorArmonico.frequency.value = frecuencia * 2;
+
+        ganancia.gain.setValueAtTime(0, this.audioCtx.currentTime);
+        ganancia.gain.linearRampToValueAtTime(0.15, this.audioCtx.currentTime + 0.1);
+        ganancia.gain.exponentialRampToValueAtTime(0.01, this.audioCtx.currentTime + duracion);
+
+        gananciaArmonica.gain.setValueAtTime(0, this.audioCtx.currentTime);
+        gananciaArmonica.gain.linearRampToValueAtTime(0.03, this.audioCtx.currentTime + 0.1);
+        gananciaArmonica.gain.exponentialRampToValueAtTime(0.001, this.audioCtx.currentTime + duracion * 0.7);
+
+        oscilador.connect(ganancia);
+        ganancia.connect(this.audioCtx.destination);
+        
+        osciladorArmonico.connect(gananciaArmonica);
+        gananciaArmonica.connect(this.audioCtx.destination);
+
+        oscilador.start(this.audioCtx.currentTime);
+        oscilador.stop(this.audioCtx.currentTime + duracion);
+        
+        osciladorArmonico.start(this.audioCtx.currentTime);
+        osciladorArmonico.stop(this.audioCtx.currentTime + duracion * 0.7);
+      }
+
+      detener() {
+        if (this.intervalId) {
+          clearInterval(this.intervalId);
+          this.intervalId = null;
+        }
+        if (this.audioCtx) {
+          this.audioCtx.close();
+          this.audioCtx = null;
+        }
+        this.isPlaying = false;
+      }
+    }
+
+    const musicaFondo = new MusicaFondo();
+
+    let musicaIniciada = false;
+    document.addEventListener('click', () => {
+      if (!musicaIniciada) {
+        musicaFondo.iniciar();
+        musicaIniciada = true;
+      }
+    }, { once: false });
+
+    document.addEventListener('touchstart', () => {
+      if (!musicaIniciada) {
+        musicaFondo.iniciar();
+        musicaIniciada = true;
+      }
+    }, { once: false });
   </script>
 </body>
 </html>
