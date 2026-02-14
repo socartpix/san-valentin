@@ -196,6 +196,102 @@
       50% { transform: scale(1.05); }
     }
 
+    /* Pantalla Orquideas - transicion hacia la derecha */
+    .pantalla.slide-right-enter {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+
+    .pantalla.slide-right-visible {
+      transform: translateX(0);
+      opacity: 1;
+      pointer-events: auto;
+      transition: transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.8s ease;
+    }
+
+    .pantalla.slide-right-exit {
+      transform: translateX(-100%);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.8s ease;
+    }
+
+    /* Orquideas decorativas */
+    .orquidea-decorativa {
+      position: absolute;
+      font-size: 2.8rem;
+      opacity: 0;
+      animation: orquidea-aparecer 1.5s ease forwards, orquidea-flotar 5s ease-in-out infinite;
+      filter: drop-shadow(0 0 15px rgba(186, 85, 211, 0.8));
+    }
+
+    @keyframes orquidea-aparecer {
+      0% { opacity: 0; transform: scale(0) rotate(-30deg); }
+      100% { opacity: 0.8; transform: scale(1) rotate(0deg); }
+    }
+
+    @keyframes orquidea-flotar {
+      0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+      25% { transform: translateY(-12px) rotate(5deg) scale(1.05); }
+      50% { transform: translateY(-20px) rotate(-3deg) scale(1.1); }
+      75% { transform: translateY(-8px) rotate(7deg) scale(1.03); }
+    }
+
+    .mensaje-orquidea {
+      color: #e8c8f0;
+      font-size: clamp(1.1rem, 3.5vw, 1.8rem);
+      text-align: center;
+      max-width: 80%;
+      line-height: 2;
+      text-shadow: 0 0 30px #9b30ff, 0 0 60px #8b00ff, 0 0 90px #ba55d3;
+      padding: 30px;
+      background: radial-gradient(ellipse at center, rgba(75, 0, 130, 0.2) 0%, transparent 70%);
+      border-radius: 20px;
+      animation: mensaje-glow 3s ease-in-out infinite alternate;
+      position: relative;
+      z-index: 5;
+    }
+
+    @keyframes mensaje-glow {
+      0% { text-shadow: 0 0 30px #9b30ff, 0 0 60px #8b00ff, 0 0 90px #ba55d3; }
+      100% { text-shadow: 0 0 40px #da70d6, 0 0 80px #9b30ff, 0 0 120px #ba55d3, 0 0 160px #8b008b; }
+    }
+
+    /* Efecto de brillo flotante para orquideas */
+    .brillo-orquidea {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #da70d6;
+      box-shadow: 0 0 10px #da70d6, 0 0 20px #ba55d3, 0 0 40px #9b30ff;
+      animation: brillo-flotar 4s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes brillo-flotar {
+      0%, 100% { opacity: 0; transform: translateY(0) scale(0.5); }
+      20% { opacity: 1; }
+      80% { opacity: 1; }
+      50% { transform: translateY(-60px) scale(1.5); }
+      100% { opacity: 0; transform: translateY(-100px) scale(0.3); }
+    }
+
+    /* Lineas de luz decorativas */
+    .linea-luz {
+      position: absolute;
+      width: 2px;
+      height: 80px;
+      background: linear-gradient(to top, transparent, rgba(186, 85, 211, 0.6), transparent);
+      animation: linea-subir 3s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes linea-subir {
+      0%, 100% { opacity: 0; transform: translateY(30px); }
+      50% { opacity: 0.7; transform: translateY(-30px); }
+    }
+
     .btn-siguiente {
       margin-top: 40px;
       padding: 15px 50px;
@@ -261,6 +357,381 @@
       z-index: 3;
       filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2));
     }
+
+    /* === Pantalla Postales / Fotos === */
+    .postales-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      perspective: 1200px;
+      overflow: hidden;
+    }
+
+    .postal {
+      position: absolute;
+      width: clamp(200px, 35vw, 320px);
+      background: #faf3e8;
+      padding: 12px 12px 40px 12px;
+      border-radius: 4px;
+      box-shadow:
+        0 4px 8px rgba(0,0,0,0.15),
+        0 15px 40px rgba(0,0,0,0.25),
+        inset 0 0 30px rgba(139, 90, 43, 0.08);
+      transition: transform 0.1s ease-out, box-shadow 0.3s ease;
+      cursor: default;
+      transform-style: preserve-3d;
+    }
+
+    .postal::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 2px solid rgba(139, 90, 43, 0.15);
+      border-radius: 4px;
+      pointer-events: none;
+    }
+
+    .postal::after {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      right: 6px;
+      bottom: 34px;
+      border: 1px dashed rgba(139, 90, 43, 0.2);
+      border-radius: 2px;
+      pointer-events: none;
+    }
+
+    .postal img {
+      width: 100%;
+      height: clamp(150px, 25vw, 240px);
+      object-fit: cover;
+      border-radius: 2px;
+      display: block;
+      filter: saturate(1.1) contrast(1.05);
+    }
+
+    .postal-sello {
+      position: absolute;
+      top: 10px;
+      right: 14px;
+      width: 50px;
+      height: 60px;
+      background: linear-gradient(135deg, #e8395a, #ff6b8a);
+      border-radius: 3px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.6rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      border: 2px solid rgba(255,255,255,0.3);
+      z-index: 2;
+    }
+
+    .postal-sello::before {
+      content: '';
+      position: absolute;
+      top: -3px; left: -3px; right: -3px; bottom: -3px;
+      background: repeating-conic-gradient(#faf3e8 0% 25%, transparent 0% 50%) 50% / 8px 8px;
+      border-radius: 3px;
+      z-index: -1;
+    }
+
+    .postal-matasellos {
+      position: absolute;
+      top: 14px;
+      right: 70px;
+      width: 55px;
+      height: 55px;
+      border: 2px solid rgba(180, 50, 50, 0.3);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.5rem;
+      color: rgba(180, 50, 50, 0.4);
+      transform: rotate(-15deg);
+      font-family: monospace;
+      z-index: 2;
+    }
+
+    .postal-matasellos::after {
+      content: '';
+      position: absolute;
+      left: -8px;
+      right: -8px;
+      top: 50%;
+      height: 2px;
+      background: repeating-linear-gradient(90deg, rgba(180,50,50,0.3) 0px, rgba(180,50,50,0.3) 4px, transparent 4px, transparent 8px);
+    }
+
+    .postal-texto {
+      position: absolute;
+      bottom: 8px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-family: 'Georgia', serif;
+      font-size: clamp(0.6rem, 1.5vw, 0.85rem);
+      color: #8b5a2b;
+      font-style: italic;
+      letter-spacing: 1px;
+    }
+
+    .postal-lineas {
+      position: absolute;
+      bottom: 30px;
+      right: 14px;
+      width: 40%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .postal-lineas span {
+      display: block;
+      height: 1px;
+      background: rgba(139, 90, 43, 0.2);
+    }
+
+    /* Posiciones y rotaciones de cada postal */
+    .postal-1 {
+      transform: rotate(-8deg) translateZ(0px);
+      z-index: 1;
+      left: 5%;
+      top: 15%;
+    }
+
+    .postal-2 {
+      transform: rotate(5deg) translateZ(20px);
+      z-index: 2;
+      left: 35%;
+      top: 25%;
+    }
+
+    .postal-3 {
+      transform: rotate(-3deg) translateZ(40px);
+      z-index: 3;
+      right: 5%;
+      top: 10%;
+    }
+
+    /* Animacion de entrada escalonada */
+    .postal-aparecer {
+      animation: postal-entrada 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      opacity: 0;
+    }
+
+    .postal-1.postal-aparecer { animation-delay: 0.2s; }
+    .postal-2.postal-aparecer { animation-delay: 0.6s; }
+    .postal-3.postal-aparecer { animation-delay: 1s; }
+
+    @keyframes postal-entrada {
+      0% {
+        opacity: 0;
+        transform: translateY(80px) rotate(0deg) scale(0.7);
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    .postal-1.postal-aparecer {
+      animation: postal-entrada-1 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s forwards;
+    }
+    .postal-2.postal-aparecer {
+      animation: postal-entrada-2 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s forwards;
+    }
+    .postal-3.postal-aparecer {
+      animation: postal-entrada-3 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 1s forwards;
+    }
+
+    @keyframes postal-entrada-1 {
+      0% { opacity: 0; transform: translateY(80px) rotate(0deg) scale(0.7); }
+      100% { opacity: 1; transform: rotate(-8deg) translateZ(0px); }
+    }
+    @keyframes postal-entrada-2 {
+      0% { opacity: 0; transform: translateY(80px) rotate(0deg) scale(0.7); }
+      100% { opacity: 1; transform: rotate(5deg) translateZ(20px); }
+    }
+    @keyframes postal-entrada-3 {
+      0% { opacity: 0; transform: translateY(80px) rotate(0deg) scale(0.7); }
+      100% { opacity: 1; transform: rotate(-3deg) translateZ(40px); }
+    }
+
+    .titulo-postales {
+      position: absolute;
+      bottom: 12%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #ffd4e5;
+      font-size: clamp(1rem, 3vw, 1.6rem);
+      text-align: center;
+      text-shadow: 0 0 20px #ff1493, 0 0 40px #ff0066;
+      white-space: nowrap;
+      z-index: 10;
+      opacity: 0;
+      animation: titulo-postal-fade 1s ease 1.5s forwards;
+    }
+
+    @keyframes titulo-postal-fade {
+      to { opacity: 1; }
+    }
+
+    /* === Pantalla Boda === */
+    .boda-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      perspective: 1000px;
+      overflow: hidden;
+    }
+
+    .texto-arco {
+      position: relative;
+      width: clamp(280px, 70vw, 500px);
+      height: clamp(140px, 20vh, 180px);
+      margin-bottom: 20px;
+      z-index: 5;
+    }
+
+    .texto-arco svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .texto-arco textPath {
+      fill: #ffd700;
+      font-family: 'Georgia', serif;
+      font-size: clamp(14px, 2.5vw, 22px);
+      font-style: italic;
+      letter-spacing: 2px;
+    }
+
+    .texto-arco-glow {
+      filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6))
+             drop-shadow(0 0 25px rgba(255, 105, 180, 0.4))
+             drop-shadow(0 0 50px rgba(255, 215, 0, 0.3));
+      animation: arco-brillo 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes arco-brillo {
+      0% {
+        filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6))
+               drop-shadow(0 0 25px rgba(255, 105, 180, 0.4))
+               drop-shadow(0 0 50px rgba(255, 215, 0, 0.3));
+      }
+      100% {
+        filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.9))
+               drop-shadow(0 0 40px rgba(255, 105, 180, 0.6))
+               drop-shadow(0 0 70px rgba(255, 215, 0, 0.5));
+      }
+    }
+
+    .fotos-boda-grid {
+      display: flex;
+      gap: clamp(10px, 2vw, 25px);
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      z-index: 5;
+      perspective: 800px;
+    }
+
+    .foto-boda {
+      width: clamp(140px, 25vw, 220px);
+      height: clamp(180px, 32vw, 290px);
+      background: #fff;
+      padding: 8px 8px 35px 8px;
+      border-radius: 3px;
+      box-shadow:
+        0 6px 20px rgba(0,0,0,0.3),
+        0 20px 50px rgba(0,0,0,0.15),
+        inset 0 0 20px rgba(255, 215, 0, 0.05);
+      transition: transform 0.15s ease-out;
+      transform-style: preserve-3d;
+      opacity: 0;
+      position: relative;
+      overflow: visible;
+    }
+
+    .foto-boda::before {
+      content: '';
+      position: absolute;
+      top: 3px; left: 3px; right: 3px; bottom: 30px;
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 2px;
+      pointer-events: none;
+    }
+
+    .foto-boda::after {
+      content: '💍';
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1rem;
+      opacity: 0.6;
+    }
+
+    .foto-boda img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 2px;
+      display: block;
+      filter: sepia(0.08) saturate(1.15) contrast(1.05);
+    }
+
+    .foto-boda-marco-dorado {
+      position: absolute;
+      top: -4px; left: -4px; right: -4px; bottom: -4px;
+      border: 2px solid rgba(212, 175, 55, 0.4);
+      border-radius: 5px;
+      pointer-events: none;
+      box-shadow: inset 0 0 10px rgba(255, 215, 0, 0.1);
+    }
+
+    .foto-boda-aparecer-1 { animation: foto-boda-in 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s forwards; }
+    .foto-boda-aparecer-2 { animation: foto-boda-in 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.7s forwards; }
+    .foto-boda-aparecer-3 { animation: foto-boda-in 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 1.1s forwards; }
+
+    @keyframes foto-boda-in {
+      0% { opacity: 0; transform: translateY(60px) scale(0.6) rotateY(30deg); }
+      100% { opacity: 1; transform: translateY(0) scale(1) rotateY(0deg); }
+    }
+
+    /* Particulas doradas de fondo */
+    .particula-dorada {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: #ffd700;
+      box-shadow: 0 0 6px #ffd700, 0 0 15px rgba(255, 215, 0, 0.5);
+      animation: particula-dorada-flotar 5s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes particula-dorada-flotar {
+      0%, 100% { opacity: 0; transform: translateY(0) scale(0.5); }
+      15% { opacity: 0.8; }
+      85% { opacity: 0.8; }
+      50% { transform: translateY(-80px) scale(1.3); }
+      100% { opacity: 0; transform: translateY(-120px) scale(0.2); }
+    }
   </style>
 </head>
 <body>
@@ -302,15 +773,148 @@
     <button class="btn-siguiente" onclick="siguientePantalla()">Continuar ❤️</button>
   </div>
 
-  <!-- Pantalla 2: Te amo -->
-  <div class="pantalla" id="pantalla2">
+  <!-- Pantalla 2: Orquideas -->
+  <div class="pantalla slide-right-enter" id="pantalla2" style="display:none;">
+    <!-- Orquideas decorativas -->
+    <div class="orquidea-decorativa" style="top: 5%; left: 8%; animation-delay: 0.2s, 0s;">🌺</div>
+    <div class="orquidea-decorativa" style="top: 12%; right: 12%; animation-delay: 0.6s, 1.2s;">🌸</div>
+    <div class="orquidea-decorativa" style="top: 35%; left: 5%; animation-delay: 1s, 0.5s;">🌺</div>
+    <div class="orquidea-decorativa" style="top: 25%; right: 6%; animation-delay: 0.4s, 2s;">🌸</div>
+    <div class="orquidea-decorativa" style="bottom: 25%; left: 10%; animation-delay: 1.4s, 1.5s;">🌺</div>
+    <div class="orquidea-decorativa" style="bottom: 15%; right: 8%; animation-delay: 0.8s, 0.8s;">🌸</div>
+    <div class="orquidea-decorativa" style="bottom: 35%; left: 3%; animation-delay: 1.8s, 2.5s;">🌺</div>
+    <div class="orquidea-decorativa" style="top: 8%; left: 45%; animation-delay: 1.2s, 1.8s;">🌸</div>
+    <div class="orquidea-decorativa" style="bottom: 8%; right: 40%; animation-delay: 2s, 0.3s;">🌺</div>
+
+    <!-- Brillos flotantes -->
+    <div class="brillo-orquidea" style="top: 20%; left: 15%; animation-delay: 0s;"></div>
+    <div class="brillo-orquidea" style="top: 40%; right: 20%; animation-delay: 1s;"></div>
+    <div class="brillo-orquidea" style="bottom: 30%; left: 25%; animation-delay: 2s;"></div>
+    <div class="brillo-orquidea" style="top: 60%; right: 30%; animation-delay: 0.5s;"></div>
+    <div class="brillo-orquidea" style="bottom: 20%; left: 40%; animation-delay: 1.5s;"></div>
+    <div class="brillo-orquidea" style="top: 15%; right: 35%; animation-delay: 2.5s;"></div>
+    <div class="brillo-orquidea" style="bottom: 40%; right: 10%; animation-delay: 3s;"></div>
+    <div class="brillo-orquidea" style="top: 50%; left: 8%; animation-delay: 3.5s;"></div>
+
+    <!-- Lineas de luz -->
+    <div class="linea-luz" style="left: 10%; bottom: 10%; animation-delay: 0s;"></div>
+    <div class="linea-luz" style="right: 15%; bottom: 5%; animation-delay: 1s;"></div>
+    <div class="linea-luz" style="left: 30%; bottom: 15%; animation-delay: 2s;"></div>
+    <div class="linea-luz" style="right: 35%; bottom: 8%; animation-delay: 1.5s;"></div>
+    <div class="linea-luz" style="left: 50%; bottom: 12%; animation-delay: 0.5s;"></div>
+    <div class="linea-luz" style="right: 50%; bottom: 3%; animation-delay: 2.5s;"></div>
+
+    <p class="mensaje-orquidea">
+      Eres una mujer valiosa, una en un mill&oacute;n<br>
+      y he sido el hombre m&aacute;s afortunado de la tierra<br>
+      por haberte encontrado en estos momentos.
+    </p>
+    <button class="btn-siguiente" onclick="pantallaFinal()" style="background: linear-gradient(45deg, #9b30ff, #da70d6);">Continuar 💜</button>
+  </div>
+
+  <!-- Pantalla 3: Te amo -->
+  <div class="pantalla" id="pantalla3" style="display:none;">
     <p class="mensaje-final">Te amo ❤️</p>
+    <button class="btn-siguiente" onclick="pantallaPostales()">Continuar ❤️</button>
+  </div>
+
+  <!-- Pantalla 4: Postales / Fotos -->
+  <div class="pantalla" id="pantalla4" style="display:none;">
+    <div class="postales-container" id="postalesContainer">
+      <!-- Postal 1 -->
+      <div class="postal postal-1 postal-aparecer" data-parallax="1">
+        <div class="postal-sello">💕</div>
+        <div class="postal-matasellos">14 FEB<br>2026</div>
+        <img src="foto1.jpg" alt="Nosotros">
+        <div class="postal-lineas">
+          <span></span><span></span><span></span>
+        </div>
+        <div class="postal-texto">Con todo mi amor</div>
+      </div>
+
+      <!-- Postal 2 -->
+      <div class="postal postal-2 postal-aparecer" data-parallax="2">
+        <div class="postal-sello">💖</div>
+        <div class="postal-matasellos">14 FEB<br>2026</div>
+        <img src="foto2.jpg" alt="Nosotros">
+        <div class="postal-lineas">
+          <span></span><span></span><span></span>
+        </div>
+        <div class="postal-texto">Momentos juntos</div>
+      </div>
+
+      <!-- Postal 3 -->
+      <div class="postal postal-3 postal-aparecer" data-parallax="3">
+        <div class="postal-sello">💗</div>
+        <div class="postal-matasellos">14 FEB<br>2026</div>
+        <img src="foto3.jpg" alt="Nosotros">
+        <div class="postal-lineas">
+          <span></span><span></span><span></span>
+        </div>
+        <div class="postal-texto">Por siempre</div>
+      </div>
+
+      <p class="titulo-postales">Nuestros momentos favoritos ❤️</p>
+    </div>
+    <button class="btn-siguiente" onclick="pantallaBoda()" style="position:absolute; bottom:5%; z-index:20;">Continuar ❤️</button>
+  </div>
+
+  <!-- Pantalla 5: Boda -->
+  <div class="pantalla" id="pantalla5" style="display:none;">
+    <div class="boda-container" id="bodaContainer">
+      <!-- Particulas doradas -->
+      <div class="particula-dorada" style="top:8%; left:12%; animation-delay:0s;"></div>
+      <div class="particula-dorada" style="top:15%; right:18%; animation-delay:0.8s;"></div>
+      <div class="particula-dorada" style="top:25%; left:25%; animation-delay:1.6s;"></div>
+      <div class="particula-dorada" style="top:40%; right:8%; animation-delay:0.4s;"></div>
+      <div class="particula-dorada" style="bottom:30%; left:8%; animation-delay:2s;"></div>
+      <div class="particula-dorada" style="bottom:20%; right:22%; animation-delay:1.2s;"></div>
+      <div class="particula-dorada" style="top:60%; left:5%; animation-delay:2.8s;"></div>
+      <div class="particula-dorada" style="bottom:15%; left:35%; animation-delay:3.2s;"></div>
+      <div class="particula-dorada" style="top:10%; left:50%; animation-delay:0.6s;"></div>
+      <div class="particula-dorada" style="bottom:25%; right:5%; animation-delay:1.8s;"></div>
+      <div class="particula-dorada" style="top:50%; right:15%; animation-delay:3.6s;"></div>
+      <div class="particula-dorada" style="bottom:40%; left:18%; animation-delay:2.4s;"></div>
+
+      <!-- Texto en arco -->
+      <div class="texto-arco texto-arco-glow">
+        <svg viewBox="0 0 500 180">
+          <defs>
+            <path id="arco" d="M 30,160 Q 250,10 470,160" fill="none"/>
+          </defs>
+          <text>
+            <textPath href="#arco" startOffset="50%" text-anchor="middle">
+              Y el mejor regalo que alguien me haya podido dar
+            </textPath>
+          </text>
+        </svg>
+      </div>
+
+      <!-- Fotos de boda -->
+      <div class="fotos-boda-grid" id="fotosBodaGrid">
+        <div class="foto-boda foto-boda-aparecer-1" data-parallax-boda="1">
+          <div class="foto-boda-marco-dorado"></div>
+          <img src="fotoboda1.jpg" alt="Nuestra boda">
+        </div>
+        <div class="foto-boda foto-boda-aparecer-2" data-parallax-boda="2">
+          <div class="foto-boda-marco-dorado"></div>
+          <img src="fotoboda2.jpg" alt="Nuestra boda">
+        </div>
+        <div class="foto-boda foto-boda-aparecer-3" data-parallax-boda="3">
+          <div class="foto-boda-marco-dorado"></div>
+          <img src="fotoboda3.jpg" alt="Nuestra boda">
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="indicador-pestanas">
     <div class="punto activo" id="punto1"></div>
     <div class="punto" id="punto2"></div>
     <div class="punto" id="punto3"></div>
+    <div class="punto" id="punto4"></div>
+    <div class="punto" id="punto5"></div>
+    <div class="punto" id="punto6"></div>
   </div>
 
   <script type="importmap">
@@ -324,7 +928,7 @@
   <script type="module">
     import * as THREE from 'three';
 
-    let escena, camara, renderer, rosas = [], tiempo = 0;
+    let escena, camara, renderer, rosas = [], orquideas3D = [], brillos3D = [], tiempo = 0;
 
     function init() {
       escena = new THREE.Scene();
@@ -349,6 +953,8 @@
       crearRosas();
       crearParticulas();
       crearPetalos();
+      crearOrquideas3D();
+      crearBrillosOrquidea();
 
       window.addEventListener('resize', onResize);
       window.addEventListener('mousemove', onMouseMove);
@@ -505,6 +1111,172 @@
       escena.add(particulas);
     }
 
+    function crearOrquideas3D() {
+      const posiciones = [
+        { x: -4, y: 2.5, z: -3 },
+        { x: 4, y: 2, z: -4 },
+        { x: -3, y: -1.5, z: -2 },
+        { x: 3.5, y: -2, z: -3 },
+        { x: 0, y: 3, z: -5 },
+        { x: -2, y: -3, z: -4 },
+        { x: 2.5, y: 0, z: -6 },
+        { x: -1, y: 1, z: -3 },
+      ];
+
+      posiciones.forEach((pos, i) => {
+        const orquidea = crearOrquidea3D();
+        orquidea.position.set(pos.x, pos.y, pos.z);
+        orquidea.rotation.y = Math.random() * Math.PI * 2;
+        orquidea.userData = { rotacionBase: orquidea.rotation.y, delay: i * 0.7, tipo: 'orquidea' };
+        orquidea.visible = false;
+        orquideas3D.push(orquidea);
+        escena.add(orquidea);
+      });
+    }
+
+    function crearOrquidea3D() {
+      const grupo = new THREE.Group();
+
+      // Tallo curvo
+      const curva = new THREE.CubicBezierCurve3(
+        new THREE.Vector3(0, -0.8, 0),
+        new THREE.Vector3(0.1, -0.4, 0.05),
+        new THREE.Vector3(-0.1, 0, -0.05),
+        new THREE.Vector3(0, 0.3, 0)
+      );
+      const geometriaTallo = new THREE.TubeGeometry(curva, 20, 0.02, 8, false);
+      const materialTallo = new THREE.MeshPhongMaterial({
+        color: 0x2d5a27,
+        shininess: 40
+      });
+      grupo.add(new THREE.Mesh(geometriaTallo, materialTallo));
+
+      // Petalos de orquidea (forma caracteristica)
+      const coloresOrquidea = [0xda70d6, 0xba55d3, 0x9b30ff, 0xcc44ff, 0xe088e0];
+      const colorBase = coloresOrquidea[Math.floor(Math.random() * coloresOrquidea.length)];
+
+      // 3 petalos superiores (sepalos)
+      for (let i = 0; i < 3; i++) {
+        const angulo = (i / 3) * Math.PI * 2 - Math.PI / 2;
+        const geometria = new THREE.SphereGeometry(0.18, 16, 16);
+        geometria.scale(1, 0.3, 0.6);
+        const material = new THREE.MeshPhongMaterial({
+          color: colorBase,
+          transparent: true,
+          opacity: 0.85,
+          shininess: 100,
+          emissive: colorBase,
+          emissiveIntensity: 0.15
+        });
+        const petalo = new THREE.Mesh(geometria, material);
+        petalo.position.set(
+          Math.cos(angulo) * 0.15,
+          0.35 + Math.sin(angulo) * 0.12,
+          0
+        );
+        petalo.rotation.z = angulo;
+        grupo.add(petalo);
+      }
+
+      // 2 petalos laterales mas grandes
+      for (let i = 0; i < 2; i++) {
+        const lado = i === 0 ? -1 : 1;
+        const geometria = new THREE.SphereGeometry(0.22, 16, 16);
+        geometria.scale(0.8, 0.35, 0.5);
+        const material = new THREE.MeshPhongMaterial({
+          color: colorBase,
+          transparent: true,
+          opacity: 0.9,
+          shininess: 120,
+          emissive: colorBase,
+          emissiveIntensity: 0.2
+        });
+        const petalo = new THREE.Mesh(geometria, material);
+        petalo.position.set(lado * 0.2, 0.3, 0.05);
+        petalo.rotation.z = lado * 0.4;
+        grupo.add(petalo);
+      }
+
+      // Labelo (petalo central inferior, caracteristico de las orquideas)
+      const geometriaLabelo = new THREE.SphereGeometry(0.14, 16, 16);
+      geometriaLabelo.scale(1.2, 0.8, 0.6);
+      const materialLabelo = new THREE.MeshPhongMaterial({
+        color: 0xff66cc,
+        transparent: true,
+        opacity: 0.9,
+        shininess: 100,
+        emissive: 0xff44aa,
+        emissiveIntensity: 0.25
+      });
+      const labelo = new THREE.Mesh(geometriaLabelo, materialLabelo);
+      labelo.position.set(0, 0.2, 0.1);
+      grupo.add(labelo);
+
+      // Centro (columna)
+      const geometriaCentro = new THREE.SphereGeometry(0.06, 12, 12);
+      const materialCentro = new THREE.MeshPhongMaterial({
+        color: 0xffdd00,
+        shininess: 150,
+        emissive: 0xffaa00,
+        emissiveIntensity: 0.3
+      });
+      const centro = new THREE.Mesh(geometriaCentro, materialCentro);
+      centro.position.set(0, 0.32, 0.08);
+      grupo.add(centro);
+
+      // Hojas largas
+      for (let i = 0; i < 3; i++) {
+        const hojaGeo = new THREE.PlaneGeometry(0.12, 0.4);
+        const hojaMat = new THREE.MeshPhongMaterial({
+          color: 0x2d5a27,
+          transparent: true,
+          opacity: 0.75,
+          side: THREE.DoubleSide,
+          shininess: 30
+        });
+        const hoja = new THREE.Mesh(hojaGeo, hojaMat);
+        hoja.position.y = -0.5 - i * 0.15;
+        hoja.rotation.y = i * 1.5;
+        hoja.rotation.x = 0.2 + i * 0.1;
+        grupo.add(hoja);
+      }
+
+      return grupo;
+    }
+
+    function crearBrillosOrquidea() {
+      const geometria = new THREE.BufferGeometry();
+      const vertices = [];
+      const colores = [];
+
+      for (let i = 0; i < 250; i++) {
+        vertices.push(
+          (Math.random() - 0.5) * 16,
+          (Math.random() - 0.5) * 16,
+          (Math.random() - 0.5) * 12 - 4
+        );
+        const color = new THREE.Color();
+        color.setHSL(0.78 + Math.random() * 0.1, 0.7, 0.5 + Math.random() * 0.4);
+        colores.push(color.r, color.g, color.b);
+      }
+
+      geometria.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+      geometria.setAttribute('color', new THREE.Float32BufferAttribute(colores, 3));
+
+      const material = new THREE.PointsMaterial({
+        size: 0.06,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0,
+        blending: THREE.AdditiveBlending
+      });
+
+      const brillos = new THREE.Points(geometria, material);
+      brillos.userData = { tipo: 'brillos-orquidea' };
+      brillos3D.push(brillos);
+      escena.add(brillos);
+    }
+
     let mouseX = 0, mouseY = 0;
 
     function onMouseMove(event) {
@@ -525,6 +1297,15 @@
         rosa.position.y += Math.sin(tiempo * 2 + i) * 0.001;
       });
 
+      // Animar orquideas 3D
+      orquideas3D.forEach((orq, i) => {
+        if (orq.visible) {
+          orq.rotation.y = orq.userData.rotacionBase + Math.sin(tiempo * 0.8 + orq.userData.delay) * 0.4;
+          orq.position.y += Math.sin(tiempo * 1.5 + i * 0.8) * 0.0008;
+          orq.position.x += Math.cos(tiempo * 0.7 + i * 1.2) * 0.0003;
+        }
+      });
+
       escena.children.forEach(child => {
         if (child.userData.tipo === 'petalos') {
           child.rotation.y += 0.0005;
@@ -532,6 +1313,11 @@
         }
         if (child.userData.tipo === 'particulas') {
           child.rotation.y += 0.001;
+        }
+        if (child.userData.tipo === 'brillos-orquidea') {
+          child.rotation.y += 0.0008;
+          child.rotation.x = Math.sin(tiempo * 0.3) * 0.15;
+          child.rotation.z = Math.cos(tiempo * 0.4) * 0.1;
         }
       });
 
@@ -564,7 +1350,8 @@
           
           setTimeout(() => {
             p1.classList.add('visible');
-            document.getElementById('punto1').classList.add('activo');
+            document.getElementById('punto1').classList.remove('activo');
+            document.getElementById('punto2').classList.add('activo');
           }, 100);
         }, 300);
       }, 1200);
@@ -573,21 +1360,193 @@
     window.siguientePantalla = function() {
       const p1 = document.getElementById('pantalla1');
       const p2 = document.getElementById('pantalla2');
-      
+
       p1.classList.remove('visible');
       p1.classList.add('oculta');
+
+      // Ocultar rosas 3D, mostrar orquideas 3D
+      rosas.forEach(r => { r.visible = false; });
+      orquideas3D.forEach(o => { o.visible = true; });
+      brillos3D.forEach(b => { b.material.opacity = 0.7; });
+
+      // Cambiar luces a tonos purpura
+      escena.children.forEach(child => {
+        if (child.isPointLight) {
+          child.color.setHex(0x9b30ff);
+        }
+      });
 
       setTimeout(() => {
         p1.style.display = 'none';
         p2.style.display = 'flex';
-        
+
         setTimeout(() => {
-          p2.classList.add('visible');
-          document.getElementById('punto1').classList.remove('activo');
-          document.getElementById('punto2').classList.add('activo');
+          p2.classList.remove('slide-right-enter');
+          p2.classList.add('slide-right-visible');
+          document.getElementById('punto2').classList.remove('activo');
+          document.getElementById('punto3').classList.add('activo');
+        }, 50);
+      }, 500);
+    };
+
+    window.pantallaFinal = function() {
+      const p2 = document.getElementById('pantalla2');
+      const p3 = document.getElementById('pantalla3');
+
+      p2.classList.remove('slide-right-visible');
+      p2.classList.add('slide-right-exit');
+
+      setTimeout(() => {
+        p2.style.display = 'none';
+        p3.style.display = 'flex';
+
+        setTimeout(() => {
+          p3.classList.add('visible');
+          document.getElementById('punto3').classList.remove('activo');
+          document.getElementById('punto4').classList.add('activo');
         }, 100);
       }, 500);
     };
+
+    window.pantallaPostales = function() {
+      const p3 = document.getElementById('pantalla3');
+      const p4 = document.getElementById('pantalla4');
+
+      p3.classList.remove('visible');
+      p3.classList.add('oculta');
+
+      setTimeout(() => {
+        p3.style.display = 'none';
+        p4.style.display = 'flex';
+
+        setTimeout(() => {
+          p4.classList.add('visible');
+          document.getElementById('punto4').classList.remove('activo');
+          document.getElementById('punto5').classList.add('activo');
+          iniciarParallaxPostales();
+        }, 100);
+      }, 500);
+    };
+
+    window.pantallaBoda = function() {
+      const p4 = document.getElementById('pantalla4');
+      const p5 = document.getElementById('pantalla5');
+
+      p4.classList.remove('visible');
+      p4.classList.add('oculta');
+
+      setTimeout(() => {
+        p4.style.display = 'none';
+        p5.style.display = 'flex';
+
+        setTimeout(() => {
+          p5.classList.add('visible');
+          document.getElementById('punto5').classList.remove('activo');
+          document.getElementById('punto6').classList.add('activo');
+          iniciarParallaxBoda();
+        }, 100);
+      }, 500);
+    };
+
+    // Parallax para fotos de boda
+    function iniciarParallaxBoda() {
+      const fotos = document.querySelectorAll('.foto-boda');
+      const container = document.getElementById('bodaContainer');
+
+      function aplicarParallax(offsetX, offsetY) {
+        fotos.forEach((foto) => {
+          const depth = parseFloat(foto.dataset.parallaxBoda);
+          const moveX = offsetX * depth * 20;
+          const moveY = offsetY * depth * 12;
+          const rotateY = offsetX * depth * 8;
+          const rotateX = -offsetY * depth * 6;
+
+          foto.style.transform = `
+            translate(${moveX}px, ${moveY}px)
+            rotateY(${rotateY}deg)
+            rotateX(${rotateX}deg)
+            scale(1)
+          `;
+        });
+      }
+
+      container.addEventListener('mousemove', (e) => {
+        const rect = container.getBoundingClientRect();
+        const offsetX = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
+        const offsetY = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
+        aplicarParallax(offsetX, offsetY);
+      });
+
+      container.addEventListener('touchmove', (e) => {
+        const touch = e.touches[0];
+        const rect = container.getBoundingClientRect();
+        const offsetX = (touch.clientX - rect.left - rect.width / 2) / (rect.width / 2);
+        const offsetY = (touch.clientY - rect.top - rect.height / 2) / (rect.height / 2);
+        aplicarParallax(offsetX, offsetY);
+      });
+    }
+
+    // Parallax para las postales
+    function iniciarParallaxPostales() {
+      const postales = document.querySelectorAll('.postal');
+      const container = document.getElementById('postalesContainer');
+
+      container.addEventListener('mousemove', (e) => {
+        const rect = container.getBoundingClientRect();
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const offsetX = (e.clientX - rect.left - centerX) / centerX;
+        const offsetY = (e.clientY - rect.top - centerY) / centerY;
+
+        postales.forEach((postal) => {
+          const depth = parseFloat(postal.dataset.parallax);
+          const moveX = offsetX * depth * 25;
+          const moveY = offsetY * depth * 15;
+          const rotateY = offsetX * depth * 5;
+          const rotateX = -offsetY * depth * 5;
+
+          const baseRotations = { 1: -8, 2: 5, 3: -3 };
+          const baseRotate = baseRotations[depth] || 0;
+
+          postal.style.transform = `
+            translate(${moveX}px, ${moveY}px)
+            rotate(${baseRotate + rotateY * 0.3}deg)
+            rotateY(${rotateY}deg)
+            rotateX(${rotateX}deg)
+            translateZ(${depth * 20}px)
+          `;
+        });
+      });
+
+      // Touch parallax para movil
+      container.addEventListener('touchmove', (e) => {
+        const touch = e.touches[0];
+        const rect = container.getBoundingClientRect();
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const offsetX = (touch.clientX - rect.left - centerX) / centerX;
+        const offsetY = (touch.clientY - rect.top - centerY) / centerY;
+
+        postales.forEach((postal) => {
+          const depth = parseFloat(postal.dataset.parallax);
+          const moveX = offsetX * depth * 25;
+          const moveY = offsetY * depth * 15;
+          const rotateY = offsetX * depth * 5;
+          const rotateX = -offsetY * depth * 5;
+
+          const baseRotations = { 1: -8, 2: 5, 3: -3 };
+          const baseRotate = baseRotations[depth] || 0;
+
+          postal.style.transform = `
+            translate(${moveX}px, ${moveY}px)
+            rotate(${baseRotate + rotateY * 0.3}deg)
+            rotateY(${rotateY}deg)
+            rotateX(${rotateX}deg)
+            translateZ(${depth * 20}px)
+          `;
+        });
+      });
+    }
   </script>
 </body>
 </html>
