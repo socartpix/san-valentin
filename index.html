@@ -3031,9 +3031,15 @@
     
   </script>
 <script>
-  window.addEventListener("load", function () {
-    document.getElementById("loadingScreen").classList.add("hidden");
-  });
+  var loadingTimeout;
+  function hideLoading() {
+    if (!document.getElementById("loadingScreen").classList.contains("hidden")) {
+      document.getElementById("loadingScreen").classList.add("hidden");
+      clearTimeout(loadingTimeout);
+    }
+  }
+  window.addEventListener("load", hideLoading);
+  loadingTimeout = setTimeout(hideLoading, 30000);
 </script>
 
 </body>
