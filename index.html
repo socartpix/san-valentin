@@ -3024,15 +3024,17 @@
     
   </script>
 <script>
-  var loadingTimeout;
-  function hideLoading() {
-    if (!document.getElementById("loadingScreen").classList.contains("hidden")) {
-      document.getElementById("loadingScreen").classList.add("hidden");
-      clearTimeout(loadingTimeout);
+  // Forzar ocultamiento después de 3 segundos como máximo
+  setTimeout(function() {
+    var loading = document.getElementById("loadingScreen");
+    if (loading) {
+      loading.style.opacity = "0";
+      loading.style.pointerEvents = "none";
+      setTimeout(function() {
+        loading.style.display = "none";
+      }, 800);
     }
-  }
-  window.addEventListener("load", hideLoading);
-  loadingTimeout = setTimeout(hideLoading, 15000);
+  }, 3000);
 </script>
 
 </body>
